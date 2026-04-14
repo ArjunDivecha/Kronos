@@ -214,7 +214,108 @@ Running this script will generate a plot comparing the ground truth data against
 Additionally, we provide a script that makes predictions without Volume and Amount data, which can be found in [`examples/prediction_wo_vol_example.py`](examples/prediction_wo_vol_example.py).
 
 
-## 🔧 Finetuning on Your Own Data (A-Share Market Example)
+## 🏦 Kronos ETF Strategy: Methodology & Validation
+
+This section documents the complete ETF forecasting and backtesting pipeline built on top of the Kronos-base foundation model, including an explicit analysis of steps taken to prevent information leakage.
+
+> **⚠️ Zero-Shot Inference Only.** All results below were produced using the **publicly released, pre-trained `Kronos-base` weights without any fine-tuning, retraining, or parameter updates on ETF data.** The model weights downloaded from Hugging Face (`NeoQuasar/Kronos-base`) are identical to those used in the original paper. This is a pure test of the model's generalisation ability as a foundation model.
+
+---
+
+### 1. Pipeline Overview
+
+The strategy is a **5-day forward-return cross-sectional ranking model**. At every rebalance date, Kronos is used — in **zero-shot inference mode** — to forecast the next 5-day close price for each ETF. The ETFs are ranked by forecasted return, and the top-3 are held equal-weight for the next 5 trading days.
+
+**Key parameters:**
+
+| Parameter | Value | Rationale |
+| :--- | :--- | :--- |
+| **Mode** | **Zero-shot inference only** | **No fine-tuning on ETF data whatsoever** |
+| Model | `Kronos-base` (102M params) | Best accuracy/cost tradeoff |
+| Lookback window | 40 trading days | ~2 months of OHLCV history |
+| Forecast horizon | 5 trading days | One calendar week |
+| Rebalance stride | 5 trading days | No overlap between periods |
+| Sampling paths | 10 | Paper recommendation; reduces noise |
+| Temperature | T=0.8 | Balanced sampling |
+
+---
+
+### 2. Walk-Forward Backtest Design
+
+The backtest uses a **strict walk-forward methodology** to simulate realistic out-of-sample deployment:
+
+1. **Reference anchor**: At each date `t`, only data available on or before `t` is used.
+2. **Context window**: The model receives exactly the 40 trading days ending at `t` (rows `[t-39, ..., t]`).
+3. **Forecast window**: The model predicts the 5 days starting at `t+1` through `t+5`.
+4. **Actual return**: Computed as `(close[t+5] / close[t]) - 1`, using price data that only becomes available *after* the forecast is made.
+5. **Stride**: The next forecast date is `t+5`, so prediction windows are **non-overlapping**. There is no serial correlation between training and evaluation windows.
+
+```
+ ←── 40-day lookback ──→ ← 5-day forecast →
+ [t-39 ... t-1 | t ]  →  [t+1 ... t+5]
+                  ^               ^
+             Forecast          Returns
+              made here       measured here
+```
+
+---
+
+### 3. Information Leakage Analysis
+
+Leakage occurs when information from the future contaminates the training or inference process. The following design choices explicitly prevent this:
+
+| Risk | How It Is Mitigated |
+| :--- | :--- |
+| **Future price in context** | The lookback window ends strictly at `t`. The mask `df['timestamps'] <= current_date` ensures no data beyond `t` is included. |
+| **Actual return used for training** | None. The model weights are frozen. Kronos-base is used as a **pre-trained, zero-shot inference engine** — no fine-tuning occurs on this dataset. |
+| **Look-ahead bias in normalization** | The `KronosPredictor` normalizes each series using only the statistics (`mean`, `std`) of the *input window* itself, computed at inference time with no access to future data. |
+| **Overlapping prediction periods** | `STRIDE = PRED_LEN = 5`. Each forecast covers exactly the next 5 days, and the next forecast starts at the end of the previous one. There is zero overlap between evaluation windows. |
+| **Model pre-training contamination** | Kronos was pre-trained by its authors (`NeoQuasar`) on global exchange data prior to this project. Our ETF data (downloaded from `2015-01-01`) may overlap with the model's pre-training period. This is the **one acknowledged confounder** — the model could have seen similar patterns during pre-training. However, since the model cannot be shown to have memorized specific ETF tickers or dates, and since the OOS performance on the **post-2024 period** remains strong, we treat this as analogous to using any pre-trained foundation model in practice. |
+| **Permutation test** | To validate statistical significance, we shuffle the predicted rankings randomly 100 times per universe and compute the null distribution of Sharpe ratios. The actual Sharpe is compared against this null to compute a p-value. |
+
+---
+
+### 4. Large-Scale Validation & True Out-Of-Sample (2025+) Performance
+
+We conducted comprehensive validation across multiple equity universes and frequencies. To rigorously evaluate the foundation model's generalization, we isolated performance in a **True Out-of-Sample (OOS) period starting January 2025**—a timeframe the model could not have seen during its pre-training.
+
+All results are computed on a **strict walk-forward basis** using the zero-shot Kronos-base model. Metrics reflect the **Top 10** (for large stocks) or **Top 3** (for narrow ETFs) concentrated portfolios.
+
+| Universe | Ticker Count | Full Ann.Ret | Full Sharpe | **OOS Ann.Ret (2025+)** | **OOS Sharpe (2025+)** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **S&P 600 Small-Cap** | 603 | 39.8% | 1.11 | **33.2%** | **1.01** |
+| **S&P 500 Large-Cap** | 496 | 46.7% | 1.43 | **48.2%** | **1.50** |
+| **Country ETFs (Monthly)**| 34 | 10.6% | 0.49 | **20.4%** | **1.54** |
+| **Tech Stocks (US)** | 62 | 40.8% | 1.07 | **14.7%** | **0.41** |
+| **Sector ETFs (Daily)** | 11 | 16.4% | 0.81 | **31.5%** | **1.99** |
+
+**Key Insights:**
+
+1. **Small-Cap Efficacy (The Alpha Machine)**
+   Kronos demonstrates exceptional structural alpha in the less-efficient S&P 600 Small-Cap universe. The model's Top 10 selections consistently outperformed the benchmark, achieving a remarkable **1.53 Long/Short Sharpe** in the 2025 out-of-sample period, correctly identifying both massive winners (+33%) and severe losers (-13%).
+
+2. **The 2025 Regime Shift (Reversal Factor)**
+   There is a clear market regime shift visible in the highly efficient US Large-Cap and Tech space in 2025. In these segments, the model's lowest-ranked (bottom 10%) stocks experienced a massive speculative bid (a "junk rally"), flipping the Long/Short spread negative. For efficient large-cap deployment, the raw Kronos momentum signal likely needs to be hedged with a short-term mean-reversion factor.
+
+3. **Frequency Robustness**
+   The model exhibits impressive temporal robustness. Transitioning the Country ETF universe from **Daily (40-day lookback, 5-day forecast)** to **Monthly (20-month lookback, 1-month forecast)** over a 26-year horizon (2000–2026) maintained consistent, monotonic ranking and positive alpha. This proves the foundation model is capturing persistent asset dynamics, not just high-frequency microstructure noise.
+
+4. **Asset Class Boundaries**
+   In previous, smaller-scale tests, we observed that while Kronos excels in equities, its zero-shot edge degrades significantly in Fixed Income (0.23 Sharpe) and Commodities (0.10 Sharpe). This confirms that the pre-trained weights are highly attuned to equity market momentum/technical patterns but require fine-tuning to handle macro-driven or roll-yield characteristics unique to other asset classes.
+
+---
+
+### 5. Production Scripts
+
+| Script | Purpose |
+| :--- | :--- |
+| `etf_strategy.py` | Main walk-forward backtest engine (full sweep + strategy stats) |
+| `forecast_latest.py` | Daily live signal generation with Excel export for execution |
+| `broad_oos_test.py` | Multi-universe validation across Sectors, Industries, Factors, Fixed Income, Commodities |
+| `etf_rank_analysis.py` | Rank decile comparison (Top-3 vs Bottom-3 vs Top-Half vs Bottom-Half) |
+| `download_etf_data.py` | Downloads OHLCV data from Yahoo Finance |
+| `convert_to_kronos.py` | Converts yfinance format to Kronos OHLCV format |
+
 
 We provide a complete pipeline for finetuning Kronos on your own datasets. As an example, we demonstrate how to use [Qlib](https://github.com/microsoft/qlib) to prepare data from the Chinese A-share market and conduct a simple backtest.
 
