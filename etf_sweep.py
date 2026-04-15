@@ -119,9 +119,9 @@ def main():
                 batch_xts.append(x_ts)
                 batch_yts.append(y_ts)
                 
-                actual_day0 = df.iloc[idx]['close']
+                actual_day0 = df.iloc[idx + 1]['open']      # open t+1 (realistic execution)
                 actual_day5 = df.iloc[idx + pred_len]['close']
-                
+
                 batch_meta.append({
                     'ticker': ticker,
                     'date': current_date,

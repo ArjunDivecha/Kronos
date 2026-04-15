@@ -1,3 +1,8 @@
+"""
+Structural building blocks for the Kronos model.
+Contains layers for quantization (BSQ), attention mechanisms with RoPE, 
+and specialized temporal/hierarchical embeddings.
+"""
 import math
 
 from einops import rearrange, reduce
@@ -8,6 +13,10 @@ import torch.nn.functional as F
 
 
 class DifferentiableEntropyFunction(Function):
+    """
+    Custom autograd function to compute entropy for discrete codebooks.
+    Uses a soft approximation to remain differentiable.
+    """
     @staticmethod
     def forward(ctx, zq, basis, K, eps):
         zb = (zq + 1) / 2
@@ -80,6 +89,10 @@ class BinarySphericalQuantizer(nn.Module):
         self.soft_entropy = soft_entropy  # soft_entropy: Sec 3.2 of https://arxiv.org/pdf/1911.05894.pdf
 
     def quantize(self, z):
+        """
+        Projects continuous representation z onto binary bits {-1, 1}.
+        Uses straight-through estimator (STE) for backpropagation.
+        """
         assert z.shape[-1] == self.embed_dim, f"Expected {self.embed_dim} dimensions, got {z.shape[-1]}"
 
         zhat = torch.where(z > 0,
@@ -223,7 +236,10 @@ class BinarySphericalQuantizer(nn.Module):
 
 
 class BSQuantizer(nn.Module):
-
+    """
+    Wrapper for BinarySphericalQuantizer that manages bit-splitting for 
+    high-bit (s1) and low-bit (s2) tokenization.
+    """
     def __init__(self, s1_bits, s2_bits, beta, gamma0, gamma, zeta, group_size):
         super().__init__()
         self.codebook_dim = s1_bits + s2_bits
@@ -255,6 +271,10 @@ class BSQuantizer(nn.Module):
 
 
 class RMSNorm(torch.nn.Module):
+    """
+    Root Mean Square Layer Normalization.
+    Stabilizes training by normalizing hidden states by their root mean square.
+    """
     def __init__(self, dim: int, eps: float = 1e-5):
         super().__init__()
         self.eps = eps
@@ -269,6 +289,9 @@ class RMSNorm(torch.nn.Module):
 
 
 class FeedForward(nn.Module):
+    """
+    Transformer Feed-Forward Network using SiLU activation and gated linear units.
+    """
     def __init__(self, d_model, ff_dim, ffn_dropout_p=0.0):
         super().__init__()
 
@@ -282,6 +305,10 @@ class FeedForward(nn.Module):
 
 
 class RotaryPositionalEmbedding(nn.Module):
+    """
+    Implementation of Rotary Positional Embeddings (RoPE).
+    Encodes relative position information into query and key matrices.
+    """
     def __init__(self, dim):
         super().__init__()
         inv_freq = 1.0 / (10000 ** (torch.arange(0, dim, 2).float() / dim))
@@ -398,6 +425,9 @@ class MultiHeadCrossAttentionWithRoPE(nn.Module):
 
 
 class HierarchicalEmbedding(nn.Module):
+    """
+    Creates unified embeddings by fusing hi-bit (s1) and low-bit (s2) subtokens.
+    """
     def __init__(self, s1_bits, s2_bits, d_model=256):
         super().__init__()
         self.s1_bits = s1_bits
@@ -444,6 +474,10 @@ class HierarchicalEmbedding(nn.Module):
 
 
 class DependencyAwareLayer(nn.Module):
+    """
+    A cross-attention layer that models the dependency between 
+    coarse and fine subtokens.
+    """
     def __init__(self, d_model, n_heads=4, attn_dropout_p=0.0, resid_dropout=0.0):
         super().__init__()
         self.cross_attn = MultiHeadCrossAttentionWithRoPE(d_model, n_heads, attn_dropout_p, resid_dropout)
@@ -534,6 +568,9 @@ class FixedEmbedding(nn.Module):
 
 
 class TemporalEmbedding(nn.Module):
+    """
+    Generates embeddings for cyclical time features: minute, hour, weekday, day, month.
+    """
     def __init__(self, d_model, learn_pe):
         super(TemporalEmbedding, self).__init__()
 

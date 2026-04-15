@@ -1,3 +1,8 @@
+"""
+Core Kronos Model Definitions and Predictor.
+Implements the main foundation model architecture, the VQ-tokenizer, 
+and the high-level predictor for time-series forecasting.
+"""
 import numpy as np
 import pandas as pd
 import torch
@@ -223,7 +228,7 @@ class Kronos(nn.Module, PyTorchModelHubMixin):
         self.apply(self._init_weights)
 
     def _init_weights(self, module):
-
+        """Standard weight initialization for linear, embedding, and norm layers."""
         if isinstance(module, nn.Linear):
             nn.init.xavier_normal_(module.weight)
             if module.bias is not None:
@@ -371,6 +376,16 @@ def top_k_top_p_filtering(
 
 
 def sample_from_logits(logits, temperature=1.0, top_k=None, top_p=None, sample_logits=True):
+    """
+    Standard sampling strategy for language models applied to time-series tokens.
+    
+    Args:
+        logits: Input logit tensor [B, Vocab]
+        temperature: Scaling factor for probability distribution (T < 1 is more deterministic)
+        top_k: Only consider the top K tokens by probability
+        top_p: Nucleus sampling (cumulative probability threshold)
+        sample_logits: Whether to sample randomly or take the argmax (greedy)
+    """
     logits = logits / temperature
     if top_k is not None or top_p is not None:
         if top_k > 0 or top_p < 1.0:
@@ -387,6 +402,14 @@ def sample_from_logits(logits, temperature=1.0, top_k=None, top_p=None, sample_l
 
 
 def auto_regressive_inference(tokenizer, model, x, x_stamp, y_stamp, max_context, pred_len, clip=5, T=1.0, top_k=0, top_p=0.99, sample_count=5, verbose=False):
+    """
+    Core loop for generating future price action step-by-step.
+    
+    1. Encodes historical windows into discrete tokens.
+    2. Autoregressively predicts next tokens (s1 then s2).
+    3. Manages sliding context window to stay within max_context limits.
+    4. Generates multiple paths (sample_count) and averages the decoded results.
+    """
     with torch.no_grad():
         x = torch.clip(x, -clip, clip)
 
@@ -470,6 +493,7 @@ def auto_regressive_inference(tokenizer, model, x, x_stamp, y_stamp, max_context
 
 
 def calc_time_stamps(x_timestamp):
+    """Parses a pandas DatetimeIndex into a matrix of cyclical temporal features."""
     time_df = pd.DataFrame()
     time_df['minute'] = x_timestamp.dt.minute
     time_df['hour'] = x_timestamp.dt.hour
@@ -480,7 +504,10 @@ def calc_time_stamps(x_timestamp):
 
 
 class KronosPredictor:
-
+    """
+    The high-level interface for users to run predictions on pandas DataFrames.
+    Includes data normalization, timestamp parsing, and batch processing.
+    """
     def __init__(self, model, tokenizer, device=None, max_context=512, clip=5):
         self.tokenizer = tokenizer
         self.model = model
@@ -533,6 +560,19 @@ class KronosPredictor:
 
         if df[self.price_cols + [self.vol_col, self.amt_vol]].isnull().values.any():
             raise ValueError("Input DataFrame contains NaN values in price or volume columns.")
+
+        x_timestamp = pd.Series(pd.to_datetime(x_timestamp)).reset_index(drop=True)
+        y_timestamp = pd.Series(pd.to_datetime(y_timestamp)).reset_index(drop=True)
+        if len(x_timestamp) != len(df):
+            raise ValueError(f"x_timestamp length ({len(x_timestamp)}) must match df length ({len(df)}).")
+        if len(y_timestamp) != pred_len:
+            raise ValueError(f"y_timestamp length ({len(y_timestamp)}) must equal pred_len ({pred_len}).")
+        if not x_timestamp.is_monotonic_increasing or not y_timestamp.is_monotonic_increasing:
+            raise ValueError("x_timestamp and y_timestamp must be monotonic increasing.")
+        if x_timestamp.iloc[-1] >= y_timestamp.iloc[0]:
+            raise ValueError(
+                "Temporal leakage detected: x_timestamp end must be strictly earlier than y_timestamp start."
+            )
 
         x_time_df = calc_time_stamps(x_timestamp)
         y_time_df = calc_time_stamps(y_timestamp)
@@ -613,6 +653,23 @@ class KronosPredictor:
 
             x_timestamp = x_timestamp_list[i]
             y_timestamp = y_timestamp_list[i]
+            x_timestamp = pd.Series(pd.to_datetime(x_timestamp)).reset_index(drop=True)
+            y_timestamp = pd.Series(pd.to_datetime(y_timestamp)).reset_index(drop=True)
+            if len(x_timestamp) != len(df):
+                raise ValueError(
+                    f"x_timestamp length at index {i} ({len(x_timestamp)}) must match df length ({len(df)})."
+                )
+            if len(y_timestamp) != pred_len:
+                raise ValueError(
+                    f"y_timestamp length at index {i} ({len(y_timestamp)}) must equal pred_len ({pred_len})."
+                )
+            if not x_timestamp.is_monotonic_increasing or not y_timestamp.is_monotonic_increasing:
+                raise ValueError(f"Timestamps at index {i} must be monotonic increasing.")
+            if x_timestamp.iloc[-1] >= y_timestamp.iloc[0]:
+                raise ValueError(
+                    f"Temporal leakage detected at index {i}: "
+                    "x_timestamp end must be strictly earlier than y_timestamp start."
+                )
 
             x_time_df = calc_time_stamps(x_timestamp)
             y_time_df = calc_time_stamps(y_timestamp)

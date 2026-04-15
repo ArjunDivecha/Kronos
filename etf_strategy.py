@@ -60,7 +60,7 @@ def run_sweep():
             if not mask.any():
                 continue
             idx = df[mask].index[-1]
-            if idx < LOOKBACK - 1 or idx + PRED_LEN >= len(df):
+            if idx < LOOKBACK - 1 or idx + PRED_LEN >= len(df) or idx + 1 >= len(df):
                 continue
 
             x_df  = df.iloc[idx - LOOKBACK + 1 : idx + 1]
@@ -74,13 +74,13 @@ def run_sweep():
             batch_xts.append(x_ts)
             batch_yts.append(y_ts)
 
-            actual_day0 = df.iloc[idx]['close']
-            actual_day5 = df.iloc[idx + PRED_LEN]['close']
+            actual_entry = df.iloc[idx + 1]['open']    # open on t+1 (realistic execution)
+            actual_exit  = df.iloc[idx + PRED_LEN]['close']  # close on t+5
             batch_meta.append({
                 'ticker': ticker,
                 'date': pd.Timestamp(current_date),
-                'actual_day0': actual_day0,
-                'actual_return': (actual_day5 / actual_day0) - 1
+                'actual_day0': actual_entry,
+                'actual_return': (actual_exit / actual_entry) - 1
             })
 
         if not batch_dfs:

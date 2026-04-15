@@ -1,0 +1,291 @@
+"""
+Tech Stocks OOS Test
+====================
+Zero-shot Kronos-base backtest on ~70 large-cap US Technology stocks.
+Compares Top-10 vs Bottom-10 and Top-50% vs Bottom-50% portfolios.
+Same walk-forward methodology as etf_strategy.py — no leakage.
+"""
+import os, sys
+import pandas as pd
+import numpy as np
+import yfinance as yf
+from tqdm import tqdm
+from scipy.stats import spearmanr
+
+sys.path.append(os.path.abspath(os.path.curdir))
+from model import Kronos, KronosTokenizer, KronosPredictor
+
+# ── UNIVERSE: ~70 Large-Cap US Tech Stocks ────────────────────────────────────
+TECH_STOCKS = [
+    # Mega-cap / FAANG+
+    "AAPL", "MSFT", "NVDA", "GOOGL", "META", "AMZN", "TSLA", "AVGO",
+    # Semiconductors
+    "AMD", "QCOM", "TXN", "INTC", "AMAT", "LRCX", "KLAC", "MRVL",
+    "MPWR", "ON", "STX", "WDC", "MU", "NXPI", "ADI", "MCHP",
+    # Software / Cloud
+    "CRM", "ORCL", "SAP", "ADBE", "NOW", "INTU", "SNOW", "PLTR",
+    "DDOG", "ZS", "CRWD", "NET", "OKTA", "TEAM", "HUBS", "WDAY",
+    "VEEV", "PANW", "FTNT", "ZM",
+    # Internet / E-commerce
+    "NFLX", "UBER", "LYFT", "ABNB", "DASH", "PINS", "SNAP", "RBLX",
+    # Hardware / Infrastructure
+    "ANET", "HPE", "DELL", "NTAP", "PSTG", "SMCI", "GLW",
+    # Payments / Fintech
+    "PYPL", "SQ", "COIN",
+    # Enterprise / IT Services
+    "ACN", "IBM", "CTSH", "IT", "DXC", "EPAM",
+    # Telecom / Networking
+    "CSCO", "JNPR", "AKAM",
+]
+
+# ── CONFIG ───────────────────────────────────────────────────────────────────
+DATA_DIR    = "data/TechStocks"
+LOOKBACK    = 40
+PRED_LEN    = 5
+STRIDE      = 5
+TOP_N       = 10          # Top-10 / Bottom-10
+FORECAST_CSV = "forecasts_TechStocks.csv"
+
+
+# ── STEP 1: DOWNLOAD & CONVERT ───────────────────────────────────────────────
+def download_and_convert(tickers):
+    """Download from yfinance, convert to Kronos OHLCV format."""
+    os.makedirs(DATA_DIR, exist_ok=True)
+    valid = []
+    for ticker in tqdm(tickers, desc="Downloading Tech Stocks"):
+        out_path = os.path.join(DATA_DIR, f"{ticker}.csv")
+        if os.path.exists(out_path):
+            valid.append(ticker)
+            continue
+        try:
+            data = yf.download(ticker, start="2015-01-01", progress=False)
+            if data.empty or len(data) < LOOKBACK + PRED_LEN + 10:
+                print(f"  Skipping {ticker}: insufficient data ({len(data)} rows)")
+                continue
+            if isinstance(data.columns, pd.MultiIndex):
+                data.columns = data.columns.get_level_values(0)
+            df = pd.DataFrame({
+                "timestamps": pd.to_datetime(data.index).strftime("%Y-%m-%d %H:%M:%S"),
+                "open":   data["Open"].values,
+                "high":   data["High"].values,
+                "low":    data["Low"].values,
+                "close":  data["Close"].values,
+                "volume": data["Volume"].values,
+                "amount": (data["Close"] * data["Volume"]).values,
+            })
+            df = df.dropna()
+            df.to_csv(out_path, index=False)
+            valid.append(ticker)
+        except Exception as e:
+            print(f"  Error {ticker}: {e}")
+    return valid
+
+
+# ── STEP 2: WALK-FORWARD BACKTEST ─────────────────────────────────────────────
+def run_backtest(tickers, predictor):
+    """Strict walk-forward backtest — no future data used at inference time."""
+    stock_dfs = {}
+    for t in tickers:
+        path = os.path.join(DATA_DIR, f"{t}.csv")
+        if not os.path.exists(path):
+            continue
+        df = pd.read_csv(path)
+        df["timestamps"] = pd.to_datetime(df["timestamps"])
+        if len(df) >= LOOKBACK + PRED_LEN:
+            stock_dfs[t] = df
+
+    print(f"  Loaded {len(stock_dfs)} valid stocks")
+    if len(stock_dfs) < TOP_N * 2:
+        raise ValueError("Not enough valid stocks to run Top-N analysis.")
+
+    # Use ticker with most data as the date reference
+    ref_ticker = max(stock_dfs, key=lambda t: len(stock_dfs[t]))
+    ref_dates  = np.sort(stock_dfs[ref_ticker]["timestamps"].unique())
+
+    all_rows = []
+    for i in tqdm(range(LOOKBACK, len(ref_dates) - PRED_LEN, STRIDE),
+                  desc=f"Backtesting {len(stock_dfs)} tech stocks"):
+        current_date = ref_dates[i]
+        batch_dfs, batch_xts, batch_yts, batch_meta = [], [], [], []
+
+        for ticker, df in stock_dfs.items():
+            mask = df["timestamps"] <= current_date
+            if not mask.any():
+                continue
+            idx = df[mask].index[-1]
+            if idx < LOOKBACK - 1 or idx + PRED_LEN >= len(df):
+                continue
+
+            x_df = df.iloc[idx - LOOKBACK + 1 : idx + 1]
+            x_ts = x_df["timestamps"]
+            y_ts = df.iloc[idx + 1 : idx + 1 + PRED_LEN]["timestamps"]
+
+            if x_df[["open","high","low","close","volume","amount"]].isnull().values.any():
+                continue
+
+            batch_dfs.append(x_df[["open","high","low","close","volume","amount"]])
+            batch_xts.append(x_ts)
+            batch_yts.append(y_ts)
+            batch_meta.append({
+                "ticker":        ticker,
+                "date":          pd.Timestamp(current_date),
+                "actual_day0":   df.iloc[idx]["close"],
+                "actual_return": (df.iloc[idx + PRED_LEN]["close"] / df.iloc[idx]["close"]) - 1,
+            })
+
+        if len(batch_dfs) < TOP_N * 2:
+            continue
+
+        try:
+            preds = predictor.predict_batch(
+                df_list=batch_dfs,
+                x_timestamp_list=batch_xts,
+                y_timestamp_list=batch_yts,
+                pred_len=PRED_LEN,
+                sample_count=10,
+                T=0.8,
+                verbose=False,
+            )
+            for j, p_df in enumerate(preds):
+                meta = batch_meta[j]
+                pred_close = p_df.iloc[-1]["close"]
+                all_rows.append({
+                    "date":          meta["date"],
+                    "ticker":        meta["ticker"],
+                    "pred_return":   (pred_close / meta["actual_day0"]) - 1,
+                    "actual_return": meta["actual_return"],
+                })
+        except Exception:
+            pass
+
+    if not all_rows:
+        raise ValueError("No forecasts generated.")
+
+    forecasts = pd.DataFrame(all_rows)
+    forecasts.to_csv(FORECAST_CSV, index=False)
+    print(f"  Saved {len(forecasts)} forecast rows to {FORECAST_CSV}")
+    return forecasts
+
+
+# ── STEP 3: ANALYSIS ──────────────────────────────────────────────────────────
+def analyze(forecasts):
+    """Compare Top-10, Bottom-10, Top-50%, Bottom-50%, and Benchmark."""
+    df = forecasts.dropna(subset=["actual_return"])
+    # Clip extreme outliers (>50% weekly move = likely data error)
+    df = df[df["actual_return"].abs() < 0.5]
+    dates = sorted(df["date"].unique())
+
+    ic_list = []
+    top10_rets, bot10_rets = [], []
+    top50_rets, bot50_rets = [], []
+    bench_rets = []
+
+    for d in dates:
+        snap = df[df["date"] == d].sort_values("pred_return", ascending=False)
+        n = len(snap)
+        if n < TOP_N * 2:
+            continue
+
+        ic, _ = spearmanr(snap["pred_return"], snap["actual_return"])
+        if not np.isnan(ic):
+            ic_list.append(ic)
+
+        mid = n // 2
+        top10_rets.append(snap.head(TOP_N)["actual_return"].mean())
+        bot10_rets.append(snap.tail(TOP_N)["actual_return"].mean())
+        top50_rets.append(snap.head(mid)["actual_return"].mean())
+        bot50_rets.append(snap.tail(n - mid)["actual_return"].mean())
+        bench_rets.append(snap["actual_return"].mean())
+
+    periods_per_year = 252 / STRIDE
+
+    def _stats(rets):
+        rets = np.array(rets)
+        ann_ret = (1 + rets.mean()) ** periods_per_year - 1
+        ann_vol = rets.std() * np.sqrt(periods_per_year)
+        sr = ann_ret / ann_vol if ann_vol > 0 else 0
+        return ann_ret, ann_vol, sr
+
+    top10_ann, top10_vol, top10_sr = _stats(top10_rets)
+    bot10_ann, bot10_vol, bot10_sr = _stats(bot10_rets)
+    top50_ann, top50_vol, top50_sr = _stats(top50_rets)
+    bot50_ann, bot50_vol, bot50_sr = _stats(bot50_rets)
+    bench_ann, bench_vol, bench_sr = _stats(bench_rets)
+    avg_ic = float(np.mean(ic_list)) if ic_list else 0.0
+
+    # Permutation test — 500 shuffles
+    np.random.seed(42)
+    null_sharpes = []
+    for _ in range(500):
+        shuf_rets = []
+        for d in dates:
+            snap = df[df["date"] == d]
+            if len(snap) < TOP_N * 2: continue
+            shuf_rets.append(snap.sample(frac=1).head(TOP_N)["actual_return"].mean())
+        if shuf_rets:
+            _, _, shuf_sr = _stats(shuf_rets)
+            null_sharpes.append(shuf_sr)
+    p_value = float(np.mean(np.array(null_sharpes) >= top10_sr)) if null_sharpes else 1.0
+
+    # Long-Short spread (Top-10 minus Bottom-10)
+    ls_rets = np.array(top10_rets) - np.array(bot10_rets)
+    ls_ann  = ls_rets.mean() * periods_per_year
+    ls_vol  = ls_rets.std()  * np.sqrt(periods_per_year)
+    ls_sr   = ls_ann / ls_vol if ls_vol > 0 else 0
+
+    print("\n" + "="*70)
+    print("TECH STOCKS (~70) — ZERO-SHOT KRONOS-BASE RESULTS")
+    print("="*70)
+    rows = [
+        ("Avg IC (Spearman)",         f"{avg_ic:.4f}"),
+        ("# Valid Periods",           len(top10_rets)),
+        ("# Stocks per Period (avg)", f"{df.groupby('date').size().mean():.1f}"),
+        ("--- Top-10 ---",            ""),
+        ("  Annualised Return",       f"{top10_ann:.1%}"),
+        ("  Annualised Vol",          f"{top10_vol:.1%}"),
+        ("  Sharpe Ratio",            f"{top10_sr:.2f}"),
+        ("--- Bottom-10 ---",         ""),
+        ("  Annualised Return",       f"{bot10_ann:.1%}"),
+        ("  Sharpe Ratio",            f"{bot10_sr:.2f}"),
+        ("--- Long-Short Spread ---", ""),
+        ("  Ann. Return (T10–B10)",   f"{ls_ann:.1%}"),
+        ("  Spread Sharpe",           f"{ls_sr:.2f}"),
+        ("--- Halves ---",            ""),
+        ("  Top-50% Sharpe",          f"{top50_sr:.2f}"),
+        ("  Bot-50% Sharpe",          f"{bot50_sr:.2f}"),
+        ("--- Benchmark (EW all) ---",""),
+        ("  Sharpe",                  f"{bench_sr:.2f}"),
+        ("--- Significance ---",      ""),
+        ("  Permutation p-value",     f"{p_value:.3f}  ({'✅ significant' if p_value < 0.05 else '⚠️  not significant at 5%'})"),
+    ]
+    for k, v in rows:
+        print(f"  {k:<35} {v}")
+    print("="*70)
+
+    return {
+        "avg_ic": avg_ic,
+        "top10_sr": top10_sr, "bot10_sr": bot10_sr,
+        "ls_sr": ls_sr,
+        "top50_sr": top50_sr, "bot50_sr": bot50_sr,
+        "bench_sr": bench_sr,
+        "p_value": p_value,
+    }
+
+
+# ── MAIN ──────────────────────────────────────────────────────────────────────
+if __name__ == "__main__":
+    print("Loading Kronos-base model (zero-shot — no fine-tuning)...")
+    tokenizer = KronosTokenizer.from_pretrained("NeoQuasar/Kronos-Tokenizer-base")
+    model     = Kronos.from_pretrained("NeoQuasar/Kronos-base")
+    predictor = KronosPredictor(model, tokenizer, max_context=512)
+
+    if os.path.exists(FORECAST_CSV):
+        print(f"\nLoading cached forecasts from {FORECAST_CSV}...")
+        forecasts = pd.read_csv(FORECAST_CSV, parse_dates=["date"])
+    else:
+        print(f"\nDownloading {len(TECH_STOCKS)} tech stocks...")
+        valid_tickers = download_and_convert(TECH_STOCKS)
+        print(f"\nRunning walk-forward backtest on {len(valid_tickers)} stocks...")
+        forecasts = run_backtest(valid_tickers, predictor)
+
+    analyze(forecasts)

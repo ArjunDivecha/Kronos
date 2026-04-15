@@ -109,14 +109,14 @@ def main():
             current_batch_yts.append(y_ts)
             
             # Metadata for actual results
-            actual_day0_close = df.iloc[idx + lookback - 1]['close'] # Last price model "sees"
-            actual_day5_close = df.iloc[idx + lookback + pred_len - 1]['close'] # Actual future price
-            
+            actual_day0_open  = df.iloc[idx + lookback]['open']                    # open t+1 (realistic execution)
+            actual_day5_close = df.iloc[idx + lookback + pred_len - 1]['close']    # close t+5
+
             current_batch_meta.append({
-                'date': df.iloc[idx + lookback]['timestamps'], # Date prediction was made
-                'actual_day0': actual_day0_close,
+                'date': df.iloc[idx + lookback]['timestamps'],  # Date prediction was made
+                'actual_day0': actual_day0_open,
                 'actual_day5': actual_day5_close,
-                'actual_return': (actual_day5_close / actual_day0_close) - 1
+                'actual_return': (actual_day5_close / actual_day0_open) - 1
             })
             
         # Run Batch Inference
