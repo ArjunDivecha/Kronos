@@ -1,0 +1,38 @@
+================================================================================
+INDUSTRY 28-ETF UNIVERSE  —  Kronos-base  (open[t+1] → close[t+5])
+================================================================================
+Tickers: XLK, XLF, XLI, XLY, XLP, XLE, XLV, XLB, XLRE, XLC, SMH, SOXX, IGV, FDN, ITA, IYT, KBE, XHB, ITB, MOO, PHO, IBB, IHI, XOP, XBI, XRT, KRE, OIH
+Period:  2010-03-03 → 2026-04-01
+OOS cutoff: 2024-07-01  (post = 88 periods)
+
+── PERIOD-LEVEL RANK STATS ──────────────────────────────────
+Metric                      Full HistoryOOS (post-Jul24)
+--------------------------------------------------------
+Periods                              810              88
+Top 10% Return                    +22.0%          +41.8%
+Top 10% Sharpe                      1.00            1.96
+Bot 10% Return                    +10.3%          +26.0%
+Bot 10% Sharpe                      0.47            1.49
+L/S Spread Return                 +10.6%          +12.6%
+L/S Spread Sharpe                   0.54            0.60
+Benchmark Return                  +15.6%          +18.4%
+Benchmark Sharpe                    0.92            1.37
+Mean IC                           0.0266         -0.0002
+Median IC                         0.0320          0.0033
+Positive IC %                      54.7%           51.1%
+
+── MONTHLY COMPOUNDED PORTFOLIO RETURNS ─────────────────────
+Full Ann Return                   +15.1%          +21.2%          +18.9%          +10.2%          +10.3%
+Full Ann Vol                       14.8%           19.3%           17.4%           21.8%           19.0%
+Full Sharpe                         1.02            1.10            1.09            0.47            0.54
+Full Hit Rate                        63%             61%             64%             58%             60%
+Full Cumulative                    +714%          +1562%          +1198%           +229%           +266%
+
+OOS Ann Return                    +17.0%          +38.7%          +26.4%          +24.0%          +17.0%
+OOS Ann Vol                         9.8%           18.0%           15.0%           14.4%           12.4%
+OOS Sharpe                          1.73            2.14            1.76            1.67            1.37
+OOS Hit Rate                         73%             73%             73%             73%             64%
+OOS Cumulative                      +32%            +77%            +51%            +46%            +32%
+
+Portfolio                         EW_All            Top3            Top5         Bottom3         Bottom5
+================================================================================
