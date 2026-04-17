@@ -119,6 +119,7 @@ TICKERS = [
 
 DATA_DIR   = REPO_DIR / "data" / "Industry28"
 TRADE_LOG  = REPO_DIR / "trade_log.csv"
+PL_TRACKER = REPO_DIR / "pl_tracker.xlsx"
 
 # IBKR settings
 IBKR_HOST  = "127.0.0.1"
@@ -128,7 +129,7 @@ ACCOUNT_ID = "U14983106"
 
 # Model settings (from sweep: 40-day lookback, 20-day hold is optimal)
 LOOKBACK     = 40
-PRED_LEN     = 20
+PRED_LEN     = 5
 SAMPLE_COUNT = 10
 TEMPERATURE  = 0.8
 
@@ -606,7 +607,182 @@ def submit_orders(trades, use_moo):
         raise RuntimeError(f"Order submission error: {exc}") from exc
 
 
-# ── STEP 7: WRITE TRADE LOG ────────────────────────────────────────────────────
+# ── STEP 7: P/L TRACKER ───────────────────────────────────────────────────────
+
+def update_pl_tracker(signals, top3, bot3, net_liq):
+    """
+    Maintains pl_tracker.xlsx with two tabs:
+      - Positions : one row per leg per cycle (entry + exit prices, leg P/L)
+      - Summary   : one row per completed cycle (cycle P/L + cumulative P/L)
+
+    Called only after a live (non-dry-run) rebalance.
+
+    Logic (fresh-start model):
+      - The previous cycle's 6 positions are closed at today's last_close prices.
+      - A new cycle's 6 positions are opened at today's last_close prices.
+      - P/L = sum of (exit_value - entry_value) across all 6 legs, sign-adjusted for shorts.
+    """
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill, Alignment
+    from openpyxl.utils import get_column_letter
+
+    today_str = date.today().strftime("%Y-%m-%d")
+    price_map = {row["ticker"]: row["last_close"] for _, row in signals.iterrows()}
+    position_size = net_liq * 0.98 / 6.0
+
+    # ── Load or create workbook ──────────────────────────────────────────────
+    if PL_TRACKER.exists():
+        wb = openpyxl.load_workbook(PL_TRACKER)
+    else:
+        wb = openpyxl.Workbook()
+        wb.remove(wb.active)  # remove default sheet
+
+    # ── Ensure both sheets exist ─────────────────────────────────────────────
+    if "Positions" not in wb.sheetnames:
+        ws_pos = wb.create_sheet("Positions")
+        pos_headers = [
+            "Cycle", "Open Date", "Ticker", "Side", "Qty",
+            "Entry Price", "Entry Value",
+            "Close Date", "Exit Price", "Exit Value",
+            "Dollar P/L", "% Return",
+        ]
+        ws_pos.append(pos_headers)
+        _style_header_row(ws_pos)
+    else:
+        ws_pos = wb["Positions"]
+
+    if "Summary" not in wb.sheetnames:
+        ws_sum = wb.create_sheet("Summary")
+        sum_headers = [
+            "Cycle", "Open Date", "Close Date", "Days Held",
+            "Cycle $ P/L", "Cycle % Return",
+            "Cumulative $ P/L", "Cumulative % Return",
+        ]
+        ws_sum.append(sum_headers)
+        _style_header_row(ws_sum)
+    else:
+        ws_sum = wb["Summary"]
+
+    # ── Find open cycle (rows with no Close Date) ────────────────────────────
+    pos_rows = list(ws_pos.iter_rows(min_row=2, values_only=False))
+    open_rows = [r for r in pos_rows if r[7].value is None]  # col H = Close Date
+
+    cycle_dollar_pl = 0.0
+    prev_cycle_id   = 0
+
+    if open_rows:
+        prev_cycle_id = open_rows[0][0].value  # col A = Cycle
+
+        # Close each open leg at today's prices
+        for row in open_rows:
+            ticker     = row[2].value   # col C
+            side       = row[3].value   # col D
+            qty        = row[4].value   # col E
+            entry_val  = row[6].value   # col G
+
+            exit_price = price_map.get(ticker)
+            if exit_price is None:
+                print(f"  WARNING: no price for {ticker} — using entry price for P/L")
+                exit_price = row[5].value  # col F = Entry Price
+
+            exit_val = qty * exit_price
+            if side == "LONG":
+                leg_pl = exit_val - entry_val
+            else:  # SHORT: we profit when price falls
+                leg_pl = entry_val - exit_val
+
+            leg_pct = leg_pl / entry_val
+
+            row[7].value  = today_str        # Close Date
+            row[8].value  = round(exit_price, 4)
+            row[9].value  = round(exit_val, 2)
+            row[10].value = round(leg_pl, 2)
+            row[11].value = round(leg_pct, 6)
+
+            cycle_dollar_pl += leg_pl
+
+        # Compute days held
+        open_date_str = open_rows[0][1].value  # col B
+        open_date     = datetime.strptime(open_date_str, "%Y-%m-%d").date()
+        days_held     = (date.today() - open_date).days
+
+        # Cumulative P/L from previous Summary rows
+        prev_cumulative = 0.0
+        prev_entry_sum  = 0.0
+        for sum_row in ws_sum.iter_rows(min_row=2, values_only=True):
+            if sum_row[4] is not None:
+                prev_cumulative += sum_row[4]  # col E = Cycle $ P/L
+        for row in open_rows:
+            prev_entry_sum += row[6].value  # entry values of just-closed cycle
+
+        cum_dollar_pl  = prev_cumulative + cycle_dollar_pl
+        cycle_pct      = cycle_dollar_pl / prev_entry_sum if prev_entry_sum else 0.0
+        cum_pct        = cum_dollar_pl / (net_liq - cycle_dollar_pl) if net_liq else 0.0
+
+        ws_sum.append([
+            prev_cycle_id,
+            open_date_str,
+            today_str,
+            days_held,
+            round(cycle_dollar_pl, 2),
+            round(cycle_pct, 6),
+            round(cum_dollar_pl, 2),
+            round(cum_pct, 6),
+        ])
+
+        # ── Print P/L summary to terminal ───────────────────────────────────
+        sign = "+" if cycle_dollar_pl >= 0 else ""
+        c_sign = "+" if cum_dollar_pl >= 0 else ""
+        print(f"\n  {'─'*52}")
+        print(f"  P/L SUMMARY")
+        print(f"  {'─'*52}")
+        print(f"  Last cycle  ({open_date_str} → {today_str}, {days_held}d) :")
+        print(f"    {sign}${cycle_dollar_pl:,.2f}   ({sign}{cycle_pct*100:.2f}%)")
+        print(f"  Cumulative since inception :")
+        print(f"    {c_sign}${cum_dollar_pl:,.2f}   ({c_sign}{cum_pct*100:.2f}%)")
+        print(f"  {'─'*52}")
+    else:
+        print(f"\n  P/L TRACKER: No prior cycle — this is the opening trade.")
+
+    # ── Open new cycle ───────────────────────────────────────────────────────
+    new_cycle_id = prev_cycle_id + 1
+    for ticker in top3 + bot3:
+        side  = "LONG" if ticker in top3 else "SHORT"
+        price = price_map.get(ticker, 0.0)
+        qty   = int(position_size / price) if price > 0 else 0
+        val   = qty * price
+        ws_pos.append([
+            new_cycle_id, today_str, ticker, side, qty,
+            round(price, 4), round(val, 2),
+            None, None, None, None, None,
+        ])
+
+    # ── Format number columns ────────────────────────────────────────────────
+    _format_pl_columns(ws_pos)
+    _format_pl_columns(ws_sum)
+
+    wb.save(PL_TRACKER)
+    print(f"  P/L tracker updated → {PL_TRACKER}")
+
+
+def _style_header_row(ws):
+    """Bold + grey background on the first (header) row."""
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill
+    fill = PatternFill(fill_type="solid", fgColor="D9D9D9")
+    for cell in ws[1]:
+        cell.font = Font(bold=True)
+        cell.fill = fill
+
+
+def _format_pl_columns(ws):
+    """Auto-fit column widths (approximate)."""
+    for col in ws.columns:
+        max_len = max((len(str(c.value)) for c in col if c.value is not None), default=8)
+        ws.column_dimensions[col[0].column_letter].width = min(max_len + 4, 24)
+
+
+# ── STEP 8: WRITE TRADE LOG ────────────────────────────────────────────────────
 
 def write_trade_log(trades, order_results, top3, bot3, net_liq, use_moo, dry_run):
     fieldnames = ["date", "ticker", "side", "action", "qty", "order_id",
@@ -695,6 +871,7 @@ def main():
         print(f"  {r['ticker']:<8}  {r['action']:<5}  {r['qty']:>6}  {r['order_id']:>10}  {r['status']}")
 
     write_trade_log(trades, order_results, top3, bot3, net_liq, use_moo, dry_run=False)
+    update_pl_tracker(signals, top3, bot3, net_liq)
     print("\n  Rebalance complete.\n")
 
 
