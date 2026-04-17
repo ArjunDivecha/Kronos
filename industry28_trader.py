@@ -856,8 +856,6 @@ def main():
     if not confirmed:
         if not args.dry_run:
             print("\n  Aborted. No orders placed.")
-        if trades:
-            write_trade_log(trades, [], top3, bot3, net_liq, use_moo, dry_run=True)
         sys.exit(0)
 
     # Submit
