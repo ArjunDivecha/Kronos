@@ -130,8 +130,9 @@ ACCOUNT_ID = "U14983106"
 # Model settings (from sweep: 40-day lookback, 20-day hold is optimal)
 LOOKBACK     = 40
 PRED_LEN     = 5
-SAMPLE_COUNT = 10
+SAMPLE_COUNT = 20
 TEMPERATURE  = 0.8
+RANDOM_SEED  = 42
 
 ET = ZoneInfo("America/New_York")
 
@@ -308,6 +309,8 @@ def generate_signals(stock_dfs):
             f"Only {len(batch_dfs)} tickers have valid data — need at least 6. Aborting."
         )
 
+    import torch
+    torch.manual_seed(RANDOM_SEED)
     preds = predictor.predict_batch(
         df_list=batch_dfs,
         x_timestamp_list=batch_xts,
