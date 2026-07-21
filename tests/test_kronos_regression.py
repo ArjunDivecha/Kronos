@@ -1,3 +1,75 @@
+"""
+=============================================================================
+SCRIPT NAME: test_kronos_regression.py
+=============================================================================
+
+DESCRIPTION:
+    Regression tests for the KronosPredictor model. This test suite
+    validates that the Kronos time-series forecasting model produces
+    consistent output across code revisions by comparing predictions
+    against pre-computed reference values.
+
+    Two tests are defined:
+
+    1. test_kronos_predictor_regression: Loads pre-saved regression input
+       data from regression_input.csv, runs the Kronos predictor for each
+       specified context length (256 and 512), and compares the forecasted
+       feature columns (open, high, low, close, volume, amount) against
+       pre-computed expected output CSV files using np.testing.assert_allclose
+       with a relative tolerance of 1e-5.
+
+    2. test_kronos_predictor_mse: Loads the same input data, draws random
+       sample windows of context from the data, runs the predictor for a
+       fixed prediction horizon of 30 steps, computes the mean squared error
+       between forecast and ground truth for each sample, averages across
+       all samples, and asserts the average MSE matches hard-coded expected
+       values (0.008979 for context length 512, 0.003741 for context length
+       256) within a tolerance of 1e-6.
+
+    Both tests fix the random seed (123) and run on CPU for reproducibility.
+    The Kronos tokenizer and model are downloaded from HuggingFace Hub at
+    pinned git revisions.
+
+INPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/tests/data/regression_input.csv
+        CSV containing market data with columns: timestamps, open, high, low,
+        close, volume, amount. Used as prediction context for both tests.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/tests/data/regression_output_512.csv
+        Pre-computed expected forecast output for context length 512.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/tests/data/regression_output_256.csv
+        Pre-computed expected forecast output for context length 256.
+
+OUTPUT FILES:
+    (none — this script only prints diagnostic metrics to stdout and
+     asserts correctness via pytest assertions)
+
+VERSION: 1.0
+LAST UPDATED: 2026-06-05
+AUTHOR: Arjun Divecha
+
+DEPENDENCIES:
+    - numpy
+    - pandas
+    - pytest
+    - torch
+    - tqdm
+    - model (local: Kronos, KronosPredictor, KronosTokenizer)
+    - HuggingFace Hub (online: downloads tokenizer and model weights)
+
+USAGE:
+    pytest test_kronos_regression.py -v
+    OR: python -m pytest tests/test_kronos_regression.py -v
+
+NOTES:
+    - Tests assume the HuggingFace tokenizer (NeoQuasar/Kronos-Tokenizer-base)
+      and model (NeoQuasar/Kronos-small) are accessible via the HF Hub.
+    - Model and tokenizer revisions are pinned to specific git hashes
+      (MODEL_REVISION and TOKENIZER_REVISION constants).
+    - All tests run on CPU with a deterministic seed for reproducibility.
+    - Tests read comparison files but do not write any output files.
+=============================================================================
+"""
+
 import random
 from pathlib import Path
 

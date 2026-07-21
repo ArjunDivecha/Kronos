@@ -1,8 +1,65 @@
 """
-ETF Strategy: Kronos-base 40-day lookback, 5-day horizon.
-1. Run walk-forward sweep across all 34 ETFs, saving every individual forecast.
-2. Build a top-3 selection strategy vs equal-weight benchmark.
-3. Calculate stats and plot results.
+=============================================================================
+SCRIPT NAME: etf_strategy.py
+=============================================================================
+
+DESCRIPTION:
+    Runs a walk-forward sweep of the Kronos-base forecasting model across
+    US-listed equity ETFs. For each non-overlapping 5-day window over a
+    40-day lookback, the model generates return predictions for every ETF.
+    A top-3 selection strategy is built by picking the ETFs with the highest
+    predicted returns at each date, and its equal-weight performance is
+    compared against an equal-weight benchmark of all available ETFs.
+    The script outputs summary statistics (annualized return, volatility,
+    Sharpe ratio, hit rate) for both in-sample (before 2024-07-01) and
+    out-of-sample periods, plus a cumulative-returns plot.
+
+INPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/data/ETF/{TICKER}.csv
+        Per-ticker CSV files with columns timestamps, open, high, low, close,
+        volume, amount. All CSVs under data/ETF/ are loaded at runtime by
+        listing the directory. SPY is used as the reference date index for
+        the walk-forward sweep.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/etf_forecasts_base40.csv
+        (Optional, cached) If this file exists on startup the sweep is
+        skipped and forecasts are loaded directly from this CSV.
+
+OUTPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/etf_forecasts_base40.csv
+        CSV with columns date, ticker, pred_return, actual_return for every
+        forecast made during the walk-forward sweep.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/strategy_performance.csv
+        CSV with columns date, strat_ret, bench_ret, top_tickers,
+        n_available, cum_strat, cum_bench, relative.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/strategy_results.png
+        Two-panel chart: cumulative returns (log scale) and relative
+        strategy-vs-benchmark performance, with a vertical line at the
+        2024-07-01 train/test split.
+
+VERSION: 1.0
+LAST UPDATED: 2026-06-05
+AUTHOR: Arjun Divecha
+
+DEPENDENCIES:
+    - os, sys, json (stdlib)
+    - pandas
+    - numpy
+    - torch
+    - matplotlib
+    - scipy
+    - tqdm
+    - model (local module: Kronos, KronosTokenizer, KronosPredictor)
+
+USAGE:
+    python etf_strategy.py
+
+NOTES:
+    - Downloads the Kronos-base and Kronos-Tokenizer-base models from
+      HuggingFace (NeoQuasar) on first run.
+    - All paths in INPUT FILES / OUTPUT FILES are absolute and assume the
+      script runs from its own directory.
+    - Forecast batches that encounter errors are silently skipped.
+=============================================================================
 """
 import os, sys, json
 import pandas as pd

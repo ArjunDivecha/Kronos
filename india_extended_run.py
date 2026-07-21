@@ -1,13 +1,68 @@
 """
-Extended Backtest: India 500 Stocks
-===================================
-Sources India OHLCV history from Bloomberg, then runs the Kronos backtest
-over a configurable historical window.
+=============================================================================
+SCRIPT NAME: india_extended_run.py
+=============================================================================
 
-Default flow:
-1. Spawn a Bloomberg-only download pass in the shared OpusBloomberg env.
-2. Save repo-native CSVs under data/India/.
-3. Run the Kronos backtest over the requested analysis window.
+DESCRIPTION:
+    Loads a universe of India equities from an Excel file, downloads
+    historical OHLCV data for each security from Bloomberg (via the
+    OpusBloomberg library), then runs the Kronos neural-network backtest
+    over a user-configurable historical window.
+
+    The backtest evaluates Kronos-base predictions against actual returns,
+    computing top/bottom decile bins for each period. Supports resumption
+    from partial checkpoint files. The Bloomberg download can be run as a
+    separate subprocess pass in the OpusBloomberg conda environment.
+
+INPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/India.xlsx
+        India securities universe (columns: Ticker, Name). Loaded at
+        startup to determine which securities to download and backtest.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/data/India/{file_stem}.csv
+        Individual stock OHLCV CSVs (one per security), produced by the
+        Bloomberg download pass and consumed by the backtest loop. Each
+        contains columns: timestamps, open, high, low, close, volume.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/forecasts_India_{start_year}_{end_year}[_limitN]_checkpoint.csv
+        Optional checkpoint file read on startup to resume a partially
+        completed backtest run (written every CHECKPOINT_EVERY periods).
+
+OUTPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/data/India/{file_stem}.csv
+        Historical OHLCV CSV for each India security, downloaded from
+        Bloomberg and named by a sanitised ticker file_stem.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/data/India/_download_manifest.csv
+        Download-status manifest recording each security, its CSV filename,
+        download status (cached/downloaded/too_short/error), and row count.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/forecasts_India_{start_year}_{end_year}[_limitN].csv
+        Final backtest predictions: per-period, per-ticker predicted return
+        and actual return. Written once the backtest loop completes.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/forecasts_India_{start_year}_{end_year}[_limitN]_checkpoint.csv
+        Intermediate backtest checkpoint, saved every CHECKPOINT_EVERY
+        periods. Deleted when the final forecast CSV is written.
+
+VERSION: 1.0
+LAST UPDATED: 2026-06-05
+AUTHOR: Arjun Divecha
+
+DEPENDENCIES:
+    - blpapi (via OpusBloomberg)
+    - pandas
+    - numpy
+    - kronos (local model package from this repo)
+    - tqdm (optional; no-op fallback provided)
+
+USAGE:
+    python india_extended_run.py [--download-only] [--skip-download]
+        [--force-refresh] [--limit N] [--start-date YYYYMMDD]
+        [--end-date YYYYMMDD] [--analysis-end-date YYYY-MM-DD]
+
+NOTES:
+    - Bloomberg Terminal must be open in Parallels before running.
+    - The download pass for Bloomberg runs in the OpusBloomberg conda
+      environment (auto-spawned as a subprocess).
+    - The script loads Kronos-base and Kronos-Tokenizer from HuggingFace
+      (pretrained "NeoQuasar/Kronos-base" and "NeoQuasar/Kronos-Tokenizer-base").
+=============================================================================
 """
 
 import argparse

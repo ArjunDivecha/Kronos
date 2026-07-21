@@ -22,7 +22,7 @@ def run_targeted_sweep():
     # 5-day holding lookbacks: 5, 10, 20, 80
     # 25-day holding lookbacks: 5, 10, 20, 80
     combos = [
-        (40, 20)
+        (40, 5)
     ]
     
     # Optional: ensure uniqueness and sort

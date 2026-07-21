@@ -1,3 +1,48 @@
+"""
+=============================================================================
+SCRIPT NAME: etf_rank_analysis.py
+=============================================================================
+
+DESCRIPTION:
+    Loads ETF forecast CSV data (predicted returns and actual returns),
+    ranks ETFs by predicted return on each date, and computes group
+    performance metrics for top 3, bottom 3, top 50%, bottom 50%, and
+    the benchmark (all ETFs equally weighted). Calculates annualized
+    return, annualized volatility, and Sharpe ratio assuming 5-day
+    rebalancing. Generates two cumulative-return plots: a rank-ordering
+    comparison and a strategy alpha spread chart.
+
+INPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/etf_forecasts_base40.csv
+        CSV file containing ETF forecast data with columns for date,
+        predicted return (pred_return), and actual return (actual_return).
+        Rows without actual returns are dropped.
+
+OUTPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/rank_analysis_results.png
+        Cumulative growth comparison plot for all rank groups.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/rank_spread_results.png
+        Alpha spread (long-short) plot showing Top3-Bot3 and Top50-Bot50
+        cumulative return differences.
+
+VERSION: 1.0
+LAST UPDATED: 2026-06-05
+AUTHOR: Arjun Divecha
+
+DEPENDENCIES:
+    - pandas
+    - numpy
+    - matplotlib
+    - seaborn
+
+USAGE:
+    python etf_rank_analysis.py
+
+NOTES:
+    - Expects a CSV file named etf_forecasts_base40.csv in the same directory.
+    - Annualized metrics assume 252 trading days and 5-day rebalancing periods.
+=============================================================================
+"""
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt

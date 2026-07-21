@@ -1,0 +1,501 @@
+security,name,file,status,rows
+360ONE IB Equity,360 ONE WAM Ltd,360ONE-IB-Equity.csv,downloaded,321
+3M IB Equity,3M India Ltd,3M-IB-Equity.csv,downloaded,5204
+AACL IB Equity,Alkyl Amines Chemicals,AACL-IB-Equity.csv,downloaded,5137
+AADHARHF IB Equity,Aadhar Housing Finance Ltd,AADHARHF-IB-Equity.csv,too_short,0
+AAVAS IB Equity,Aavas Financiers Ltd,AAVAS-IB-Equity.csv,downloaded,554
+ABB IB Equity,ABB India Ltd,ABB-IB-Equity.csv,downloaded,5225
+ABCAP IB Equity,Aditya Birla Capital Ltd,ABCAP-IB-Equity.csv,downloaded,826
+ABDL IB Equity,Allied Blenders & Distillers L,ABDL-IB-Equity.csv,too_short,0
+ABFRL IB Equity,Aditya Birla Fashion and Retai,ABFRL-IB-Equity.csv,downloaded,1843
+ABLBL IB Equity,Aditya Birla Lifestyle Brands,ABLBL-IB-Equity.csv,too_short,0
+ABREL IB Equity,Aditya Birla Real Estate Ltd,ABREL-IB-Equity.csv,downloaded,5225
+ABSLAMC IB Equity,Aditya Birla Sun Life Asset Ma,ABSLAMC-IB-Equity.csv,too_short,0
+ACC IB Equity,ACC Ltd,ACC-IB-Equity.csv,downloaded,5226
+ACCE IB Equity,Action Construction Equipment,ACCE-IB-Equity.csv,downloaded,3535
+ACEM IB Equity,Ambuja Cements Ltd,ACEM-IB-Equity.csv,downloaded,5225
+ACMESOLA IB Equity,Acme Solar Holdings Ltd,ACMESOLA-IB-Equity.csv,too_short,0
+ADANI IB Equity,Adani Power Ltd,ADANI-IB-Equity.csv,downloaded,2820
+ADANIENS IB Equity,Adani Energy Solutions Ltd,ADANIENS-IB-Equity.csv,downloaded,1341
+ADANIGR IB Equity,Adani Green Energy Ltd,ADANIGR-IB-Equity.csv,downloaded,629
+ADE IB Equity,Adani Enterprises Ltd,ADE-IB-Equity.csv,downloaded,5225
+ADSEZ IB Equity,Adani Ports & Special Economic,ADSEZ-IB-Equity.csv,downloaded,3243
+AEGISLOG IB Equity,Aegis Logistics Ltd,AEGISLOG-IB-Equity.csv,downloaded,5148
+AEGISVOP IB Equity,Aegis Vopak Terminals Ltd,AEGISVOP-IB-Equity.csv,too_short,0
+AETHER IB Equity,Aether Industries Ltd,AETHER-IB-Equity.csv,too_short,0
+AFCONS IB Equity,Afcons Infrastructure Ltd,AFCONS-IB-Equity.csv,too_short,0
+AFFLE IB Equity,Affle 3i Ltd,AFFLE-IB-Equity.csv,downloaded,347
+AGARWALE IB Equity,Dr Agarwal's Health Care Ltd,AGARWALE-IB-Equity.csv,too_short,0
+AIAE IB Equity,AIA Engineering Ltd,AIAE-IB-Equity.csv,downloaded,3732
+AIIL IB Equity,Authum Investment & Infrastuct,AIIL-IB-Equity.csv,downloaded,1376
+AISG IB Equity,Asahi India Glass Ltd,AISG-IB-Equity.csv,downloaded,4948
+AJP IB Equity,Ajanta Pharma Ltd,AJP-IB-Equity.csv,downloaded,5120
+AL IB Equity,Ashok Leyland Ltd,AL-IB-Equity.csv,downloaded,5225
+ALKEM IB Equity,Alkem Laboratories Ltd,ALKEM-IB-Equity.csv,downloaded,1244
+ALOK IB Equity,Alok Industries Ltd,ALOK-IB-Equity.csv,downloaded,5210
+ALPM IB Equity,Alembic Pharmaceuticals Ltd,ALPM-IB-Equity.csv,downloaded,2300
+AMBER IB Equity,Amber Enterprises India Ltd,AMBER-IB-Equity.csv,downloaded,724
+ANANDRAT IB Equity,Anand Rathi Wealth Ltd,ANANDRAT-IB-Equity.csv,too_short,0
+ANGELONE IB Equity,Angel One Ltd,ANGELONE-IB-Equity.csv,downloaded,62
+APAT IB Equity,APL Apollo Tubes Ltd,APAT-IB-Equity.csv,downloaded,2250
+APHS IB Equity,Apollo Hospitals Enterprise Lt,APHS-IB-Equity.csv,downloaded,5224
+APNT IB Equity,Asian Paints Ltd,APNT-IB-Equity.csv,downloaded,5225
+APR IB Equity,Apar Industries Ltd,APR-IB-Equity.csv,downloaded,5215
+APTUS IB Equity,Aptus Value Housing Finance In,APTUS-IB-Equity.csv,too_short,0
+APTY IB Equity,Apollo Tyres Ltd,APTY-IB-Equity.csv,downloaded,5224
+ARBP IB Equity,Aurobindo Pharma Ltd,ARBP-IB-Equity.csv,downloaded,5225
+ARCP IB Equity,Anant Raj Ltd,ARCP-IB-Equity.csv,downloaded,4641
+ARENM IB Equity,Amara Raja Energy & Mobility L,ARENM-IB-Equity.csv,downloaded,5224
+ARTO IB Equity,Aarti Industries Ltd,ARTO-IB-Equity.csv,downloaded,5085
+ASTERDM IB Equity,Aster DM Healthcare Ltd,ASTERDM-IB-Equity.csv,downloaded,705
+ASTR IB Equity,AstraZeneca Pharma India Ltd,ASTR-IB-Equity.csv,downloaded,5150
+ASTRA IB Equity,Astral Ltd,ASTRA-IB-Equity.csv,downloaded,3417
+ATGL IB Equity,Adani Total Gas Ltd,ATGL-IB-Equity.csv,downloaded,535
+ATHERENE IB Equity,Ather Energy Ltd,ATHERENE-IB-Equity.csv,too_short,0
+ATLP IB Equity,Atul Ltd,ATLP-IB-Equity.csv,downloaded,5200
+AUBANK IB Equity,AU Small Finance Bank Ltd,AUBANK-IB-Equity.csv,downloaded,864
+AWL IB Equity,AWL Agri Business Ltd,AWL-IB-Equity.csv,too_short,0
+AXSB IB Equity,Axis Bank Ltd,AXSB-IB-Equity.csv,downloaded,5224
+BAF IB Equity,Bajaj Finance Ltd,BAF-IB-Equity.csv,downloaded,5157
+BAJAJHFL IB Equity,Bajaj Housing Finance Ltd,BAJAJHFL-IB-Equity.csv,too_short,0
+BANDHAN IB Equity,Bandhan Bank Ltd,BANDHAN-IB-Equity.csv,downloaded,686
+BASF IB Equity,BASF India Ltd,BASF-IB-Equity.csv,downloaded,5225
+BATA IB Equity,Bata India Ltd,BATA-IB-Equity.csv,downloaded,5226
+BBTC IB Equity,Bombay Burmah Trading Co,BBTC-IB-Equity.csv,downloaded,5053
+BCORP IB Equity,Birla Corp Ltd,BCORP-IB-Equity.csv,downloaded,5201
+BDE IB Equity,Blue Dart Express Ltd,BDE-IB-Equity.csv,downloaded,5214
+BDL IB Equity,Bharat Dynamics Ltd,BDL-IB-Equity.csv,downloaded,688
+BEML IB Equity,BEML Ltd,BEML-IB-Equity.csv,downloaded,5225
+BHARTI IB Equity,Bharti Airtel Ltd,BHARTI-IB-Equity.csv,downloaded,4695
+BHARTIHE IB Equity,Bharti Hexacom Ltd,BHARTIHE-IB-Equity.csv,too_short,0
+BHE IB Equity,Bharat Electronics Ltd,BHE-IB-Equity.csv,downloaded,5225
+BHEL IB Equity,Bharat Heavy Electricals Ltd,BHEL-IB-Equity.csv,downloaded,5225
+BHFC IB Equity,Bharat Forge Ltd,BHFC-IB-Equity.csv,downloaded,5223
+BIKAJI IB Equity,Bikaji Foods International Ltd,BIKAJI-IB-Equity.csv,too_short,0
+BIL IB Equity,Balkrishna Industries Ltd,BIL-IB-Equity.csv,downloaded,5016
+BIOS IB Equity,Biocon Ltd,BIOS-IB-Equity.csv,downloaded,4158
+BJAUT IB Equity,Bajaj Auto Ltd,BJAUT-IB-Equity.csv,downloaded,3122
+BJFIN IB Equity,Bajaj Finserv Ltd,BJFIN-IB-Equity.csv,downloaded,3122
+BJHI IB Equity,Bajaj Holdings & Investment Lt,BJHI-IB-Equity.csv,downloaded,5225
+BLSIN IB Equity,BLS International Services Ltd,BLSIN-IB-Equity.csv,downloaded,1069
+BLSTR IB Equity,Blue Star Ltd,BLSTR-IB-Equity.csv,downloaded,5183
+BLUEJET IB Equity,Blue Jet Healthcare Ltd,BLUEJET-IB-Equity.csv,too_short,0
+BOB IB Equity,Bank of Baroda,BOB-IB-Equity.csv,downloaded,5225
+BOI IB Equity,Bank of India,BOI-IB-Equity.csv,downloaded,5225
+BOMH IB Equity,Bank of Maharashtra,BOMH-IB-Equity.csv,downloaded,4154
+BOOT IB Equity,Abbott India Ltd,BOOT-IB-Equity.csv,downloaded,5223
+BOS IB Equity,Bosch Ltd,BOS-IB-Equity.csv,downloaded,5192
+BPCL IB Equity,Bharat Petroleum Corp Ltd,BPCL-IB-Equity.csv,downloaded,5225
+BRCM IB Equity,Balrampur Chini Mills Ltd,BRCM-IB-Equity.csv,downloaded,5189
+BRGD IB Equity,Brigade Enterprises Ltd,BRGD-IB-Equity.csv,downloaded,3221
+BRGR IB Equity,Berger Paints India Ltd,BRGR-IB-Equity.csv,downloaded,5206
+BRIT IB Equity,Britannia Industries Ltd,BRIT-IB-Equity.csv,downloaded,5225
+BSOFT IB Equity,Birlasoft Ltd,BSOFT-IB-Equity.csv,downloaded,4951
+BYRCS IB Equity,Bayer CropScience Ltd/India,BYRCS-IB-Equity.csv,downloaded,5202
+CAMPUS IB Equity,Campus Activewear Ltd,CAMPUS-IB-Equity.csv,too_short,0
+CAMS IB Equity,Computer Age Management Servic,CAMS-IB-Equity.csv,downloaded,63
+CANF IB Equity,Can Fin Homes Ltd,CANF-IB-Equity.csv,downloaded,5100
+CBK IB Equity,Canara Bank,CBK-IB-Equity.csv,downloaded,4482
+CBOI IB Equity,Central Bank of India Ltd,CBOI-IB-Equity.csv,downloaded,3312
+CCLP IB Equity,CCL Products India Ltd,CCLP-IB-Equity.csv,downloaded,4928
+CCRI IB Equity,Container Corp Of India Ltd,CCRI-IB-Equity.csv,downloaded,5137
+CEAT IB Equity,Ceat Ltd,CEAT-IB-Equity.csv,downloaded,5197
+CELLO IB Equity,Cello World Ltd,CELLO-IB-Equity.csv,too_short,0
+CEMPRO IB Equity,Cemindia Projects Ltd,CEMPRO-IB-Equity.csv,downloaded,5074
+CESC IB Equity,CESC Ltd,CESC-IB-Equity.csv,downloaded,5175
+CFIS IB Equity,Choice International Ltd,CFIS-IB-Equity.csv,downloaded,4719
+CGCL IB Equity,Capri Global Capital Ltd,CGCL-IB-Equity.csv,downloaded,4575
+CGPOWER IB Equity,CG Power & Industrial Solution,CGPOWER-IB-Equity.csv,downloaded,5225
+CHALET IB Equity,Chalet Hotels Ltd,CHALET-IB-Equity.csv,downloaded,470
+CHMB IB Equity,Chambal Fertilisers and Chemic,CHMB-IB-Equity.csv,downloaded,5224
+CHOLAHLD IB Equity,Cholamandalam Financial Holdin,CHOLAHLD-IB-Equity.csv,downloaded,5190
+CIFC IB Equity,Cholamandalam Investment and F,CIFC-IB-Equity.csv,downloaded,5158
+CIPLA IB Equity,Cipla Ltd/India,CIPLA-IB-Equity.csv,downloaded,5225
+CLEAN IB Equity,Clean Science & Technology Ltd,CLEAN-IB-Equity.csv,too_short,0
+CLGT IB Equity,Colgate-Palmolive India Ltd,CLGT-IB-Equity.csv,downloaded,5213
+CLPL IB Equity,Caplin Point Laboratories Ltd,CLPL-IB-Equity.csv,downloaded,4799
+COAL IB Equity,Coal India Ltd,COAL-IB-Equity.csv,downloaded,2519
+COCHIN IB Equity,Cochin Shipyard Ltd,COCHIN-IB-Equity.csv,downloaded,840
+COFORGE IB Equity,Coforge Ltd,COFORGE-IB-Equity.csv,downloaded,4056
+COHANCE IB Equity,Cohance Lifesciences Ltd,COHANCE-IB-Equity.csv,downloaded,204
+CONCORDB IB Equity,Concord Biotech Ltd,CONCORDB-IB-Equity.csv,too_short,0
+CRAFTSMA IB Equity,Craftsman Automation Ltd,CRAFTSMA-IB-Equity.csv,too_short,0
+CREDAG IB Equity,CreditAccess Grameen Ltd,CREDAG-IB-Equity.csv,downloaded,583
+CRIN IB Equity,Coromandel International Ltd,CRIN-IB-Equity.csv,downloaded,5045
+CRISIL IB Equity,CRISIL Ltd,CRISIL-IB-Equity.csv,downloaded,5214
+CROMPTON IB Equity,Crompton Greaves Consumer Elec,CROMPTON-IB-Equity.csv,downloaded,1150
+CRS IB Equity,Cera Sanitaryware Ltd,CRS-IB-Equity.csv,downloaded,4613
+CSTRL IB Equity,Castrol India Ltd,CSTRL-IB-Equity.csv,downloaded,5225
+CU IB Equity,Carborundum Universal Ltd,CU-IB-Equity.csv,downloaded,5075
+CUBK IB Equity,City Union Bank Ltd,CUBK-IB-Equity.csv,downloaded,5042
+CYL IB Equity,Cyient Ltd,CYL-IB-Equity.csv,downloaded,5221
+DABUR IB Equity,Dabur India Ltd,DABUR-IB-Equity.csv,downloaded,5224
+DALBHARA IB Equity,Dalmia Bharat Ltd,DALBHARA-IB-Equity.csv,downloaded,492
+DATAPATT IB Equity,Data Patterns India Ltd,DATAPATT-IB-Equity.csv,too_short,0
+DCMS IB Equity,DCM Shriram Ltd,DCMS-IB-Equity.csv,downloaded,5032
+DELHIVER IB Equity,Delhivery Ltd,DELHIVER-IB-Equity.csv,too_short,0
+DEVYANI IB Equity,Devyani International Ltd,DEVYANI-IB-Equity.csv,too_short,0
+DFPC IB Equity,Deepak Fertilisers & Petrochem,DFPC-IB-Equity.csv,downloaded,5224
+DIVI IB Equity,Divi's Laboratories Ltd,DIVI-IB-Equity.csv,downloaded,4428
+DIXON IB Equity,Dixon Technologies India Ltd,DIXON-IB-Equity.csv,downloaded,815
+DLFU IB Equity,DLF Ltd,DLFU-IB-Equity.csv,downloaded,3344
+DLPL IB Equity,Dr Lal PathLabs Ltd,DLPL-IB-Equity.csv,downloaded,1244
+DMART IB Equity,Avenue Supermarts Ltd,DMART-IB-Equity.csv,downloaded,938
+DN IB Equity,Deepak Nitrite Ltd,DN-IB-Equity.csv,downloaded,5127
+DOMS IB Equity,Doms Industries Ltd,DOMS-IB-Equity.csv,too_short,0
+DRRD IB Equity,Dr Reddy's Laboratories Ltd,DRRD-IB-Equity.csv,downloaded,5226
+ECLX IB Equity,eClerx Services Ltd,ECLX-IB-Equity.csv,downloaded,3221
+EID IB Equity,EID Parry India Ltd,EID-IB-Equity.csv,downloaded,5218
+EIH IB Equity,EIH Ltd,EIH-IB-Equity.csv,downloaded,5225
+EIM IB Equity,Eicher Motors Ltd,EIM-IB-Equity.csv,downloaded,5213
+ELCN IB Equity,Elecon Engineering Co Ltd,ELCN-IB-Equity.csv,downloaded,5065
+ELEQ IB Equity,Elgi Equipments Ltd,ELEQ-IB-Equity.csv,downloaded,5193
+EMBDL IB Equity,Embassy Developments Ltd,EMBDL-IB-Equity.csv,downloaded,3413
+EMCURE IB Equity,Emcure Pharmaceuticals Ltd,EMCURE-IB-Equity.csv,too_short,0
+ENDU IB Equity,Endurance Technologies Ltd,ENDU-IB-Equity.csv,downloaded,1043
+ENGR IB Equity,Engineers India Ltd,ENGR-IB-Equity.csv,downloaded,5200
+ENRIN IB Equity,Siemens Energy India Ltd,ENRIN-IB-Equity.csv,too_short,0
+ERIS IB Equity,Eris Lifesciences Ltd,ERIS-IB-Equity.csv,downloaded,871
+ESCORTS IB Equity,Escorts Kubota Ltd,ESCORTS-IB-Equity.csv,downloaded,5224
+ETERNAL IB Equity,Eternal Ltd,ETERNAL-IB-Equity.csv,too_short,0
+EXID IB Equity,Exide Industries Ltd,EXID-IB-Equity.csv,downloaded,5224
+FB IB Equity,Federal Bank Ltd,FB-IB-Equity.csv,downloaded,5222
+FINEORG IB Equity,Fine Organic Industries Ltd,FINEORG-IB-Equity.csv,downloaded,619
+FIRSTCRY IB Equity,BrainBees Solutions Ltd,FIRSTCRY-IB-Equity.csv,too_short,0
+FIVESTAR IB Equity,Five-Star Business Finance Ltd,FIVESTAR-IB-Equity.csv,too_short,0
+FLUOROCH IB Equity,Gujarat Fluorochemicals Ltd,FLUOROCH-IB-Equity.csv,downloaded,304
+FML IB Equity,Force Motors Ltd,FML-IB-Equity.csv,downloaded,4815
+FNXC IB Equity,Finolex Cables Ltd,FNXC-IB-Equity.csv,downloaded,5225
+FNXP IB Equity,Finolex Industries Ltd,FNXP-IB-Equity.csv,downloaded,5225
+FORH IB Equity,Fortis Healthcare Ltd,FORH-IB-Equity.csv,downloaded,3385
+FSOL IB Equity,Firstsource Solutions Ltd,FSOL-IB-Equity.csv,downloaded,3435
+GABR IB Equity,Gabriel India Ltd,GABR-IB-Equity.csv,downloaded,5015
+GAIL IB Equity,GAIL India Ltd,GAIL-IB-Equity.csv,downloaded,5224
+GALL IB Equity,Gallantt Ispat Ltd,GALL-IB-Equity.csv,downloaded,3560
+GCPL IB Equity,Godrej Consumer Products Ltd,GCPL-IB-Equity.csv,downloaded,4859
+GDSP IB Equity,Godrej Industries Ltd,GDSP-IB-Equity.csv,downloaded,5215
+GESCO IB Equity,Great Eastern Shipping Co Ltd/,GESCO-IB-Equity.csv,downloaded,5193
+GICRE IB Equity,General Insurance Corp of Indi,GICRE-IB-Equity.csv,downloaded,790
+GILL IB Equity,Gillette India Ltd,GILL-IB-Equity.csv,downloaded,5224
+GLAND IB Equity,Gland Pharma Ltd,GLAND-IB-Equity.csv,too_short,28
+GLXO IB Equity,GlaxoSmithKline Pharmaceutical,GLXO-IB-Equity.csv,downloaded,5225
+GMDC IB Equity,Gujarat Mineral Development Co,GMDC-IB-Equity.csv,downloaded,5215
+GMRAIRPO IB Equity,GMR Airports Ltd,GMRAIRPO-IB-Equity.csv,downloaded,3561
+GNFC IB Equity,Gujarat Narmada Valley Fertili,GNFC-IB-Equity.csv,downloaded,5224
+GNP IB Equity,Glenmark Pharmaceuticals Ltd,GNP-IB-Equity.csv,downloaded,5196
+GOAGRO IB Equity,Godrej Agrovet Ltd,GOAGRO-IB-Equity.csv,downloaded,796
+GODIGIT IB Equity,Go Digit General Insurance Ltd,GODIGIT-IB-Equity.csv,too_short,0
+GODPI IB Equity,Godawari Power and Ispat Ltd,GODPI-IB-Equity.csv,downloaded,3645
+GP IB Equity,Godfrey Phillips India Ltd,GP-IB-Equity.csv,downloaded,5092
+GPL IB Equity,Godrej Properties Ltd,GPL-IB-Equity.csv,downloaded,2730
+GRAN IB Equity,Granules India Ltd,GRAN-IB-Equity.csv,downloaded,4485
+GRASIM IB Equity,Grasim Industries Ltd,GRASIM-IB-Equity.csv,downloaded,5225
+GRAV IB Equity,Gravita India Ltd,GRAV-IB-Equity.csv,downloaded,2511
+GRIL IB Equity,Graphite India Ltd,GRIL-IB-Equity.csv,downloaded,5162
+GRSE IB Equity,Garden Reach Shipbuilders & En,GRSE-IB-Equity.csv,downloaded,552
+GSFC IB Equity,Gujarat State Fertilizers & Ch,GSFC-IB-Equity.csv,downloaded,5225
+GUJGA IB Equity,Gujarat Gas Ltd,GUJGA-IB-Equity.csv,downloaded,1309
+GUJS IB Equity,Gujarat State Petronet Ltd,GUJS-IB-Equity.csv,downloaded,3689
+GVTD IB Equity,GE Vernova T&D India Ltd,GVTD-IB-Equity.csv,downloaded,5197
+HAPPSTMN IB Equity,Happiest Minds Technologies Lt,HAPPSTMN-IB-Equity.csv,downloaded,73
+HAVL IB Equity,Havells India Ltd,HAVL-IB-Equity.csv,downloaded,5082
+HBLENGIN IB Equity,HBL Engineering Ltd,HBLENGIN-IB-Equity.csv,downloaded,5163
+HCLT IB Equity,HCL Technologies Ltd,HCLT-IB-Equity.csv,downloaded,5220
+HCP IB Equity,Hindustan Copper Ltd,HCP-IB-Equity.csv,downloaded,4633
+HDFCAMC IB Equity,HDFC Asset Management Co Ltd,HDFCAMC-IB-Equity.csv,downloaded,594
+HDFCB IB Equity,HDFC Bank Ltd,HDFCB-IB-Equity.csv,downloaded,5226
+HDFCLIFE IB Equity,HDFC Life Insurance Co Ltd,HDFCLIFE-IB-Equity.csv,downloaded,773
+HEG IB Equity,HEG Ltd,HEG-IB-Equity.csv,downloaded,5215
+HEXT IB Equity,Hexaware Technologies Ltd,HEXT-IB-Equity.csv,too_short,0
+HMCL IB Equity,Hero MotoCorp Ltd,HMCL-IB-Equity.csv,downloaded,5225
+HMFC IB Equity,HFCL Ltd,HMFC-IB-Equity.csv,downloaded,5206
+HMN IB Equity,Emami Ltd,HMN-IB-Equity.csv,downloaded,4598
+HNAL IB Equity,Hindustan Aeronautics Ltd,HNAL-IB-Equity.csv,downloaded,684
+HNDL IB Equity,Hindalco Industries Ltd,HNDL-IB-Equity.csv,downloaded,5225
+HOMEFIRS IB Equity,Home First Finance Co India Lt,HOMEFIRS-IB-Equity.csv,too_short,0
+HONASA IB Equity,Honasa Consumer Ltd,HONASA-IB-Equity.csv,too_short,0
+HPCL IB Equity,Hindustan Petroleum Corp Ltd,HPCL-IB-Equity.csv,downloaded,5225
+HSCH IB Equity,Himadri Speciality Chemical Lt,HSCH-IB-Equity.csv,downloaded,5030
+HUDCO IB Equity,Housing & Urban Development Co,HUDCO-IB-Equity.csv,downloaded,899
+HUVR IB Equity,Hindustan Unilever Ltd,HUVR-IB-Equity.csv,downloaded,5226
+HWA IB Equity,Honeywell Automation India Ltd,HWA-IB-Equity.csv,downloaded,5149
+HYUNDAI IB Equity,Hyundai Motor India Ltd,HYUNDAI-IB-Equity.csv,too_short,0
+HZ IB Equity,Hindustan Zinc Ltd,HZ-IB-Equity.csv,downloaded,5225
+ICEM IB Equity,India Cements Ltd/The,ICEM-IB-Equity.csv,downloaded,5224
+ICICIBC IB Equity,ICICI Bank Ltd,ICICIBC-IB-Equity.csv,downloaded,5225
+ICICIGI IB Equity,ICICI Lombard General Insuranc,ICICIGI-IB-Equity.csv,downloaded,808
+IDBI IB Equity,IDBI Bank Ltd,IDBI-IB-Equity.csv,downloaded,5226
+IDEA IB Equity,Vodafone Idea Ltd,IDEA-IB-Equity.csv,downloaded,3424
+IDFCFB IB Equity,IDFC First Bank Ltd,IDFCFB-IB-Equity.csv,downloaded,1275
+IEX IB Equity,Indian Energy Exchange Ltd,IEX-IB-Equity.csv,downloaded,792
+IFCI IB Equity,IFCI Ltd,IFCI-IB-Equity.csv,downloaded,5225
+IGIL IB Equity,International Gemmological Ins,IGIL-IB-Equity.csv,too_short,0
+IGL IB Equity,Indraprastha Gas Ltd,IGL-IB-Equity.csv,downloaded,4225
+IH IB Equity,Indian Hotels Co Ltd/The,IH-IB-Equity.csv,downloaded,5225
+IIB IB Equity,IndusInd Bank Ltd,IIB-IB-Equity.csv,downloaded,5224
+IIFL IB Equity,IIFL Finance Ltd,IIFL-IB-Equity.csv,downloaded,3878
+IKS IB Equity,Inventurus Knowledge Solutions,IKS-IB-Equity.csv,too_short,0
+INBK IB Equity,Indian Bank,INBK-IB-Equity.csv,downloaded,3430
+INDA IB Equity,Intellect Design Arena Ltd,INDA-IB-Equity.csv,downloaded,1495
+INDGN IB Equity,Indegene Ltd,INDGN-IB-Equity.csv,too_short,0
+INDIGO IB Equity,InterGlobe Aviation Ltd,INDIGO-IB-Equity.csv,downloaded,1273
+INDUSTOW IB Equity,Indus Towers Ltd,INDUSTOW-IB-Equity.csv,downloaded,1983
+INFO IB Equity,Infosys Ltd,INFO-IB-Equity.csv,downloaded,5226
+INFOE IB Equity,Info Edge India Ltd,INFOE-IB-Equity.csv,downloaded,3497
+INMART IB Equity,IndiaMart InterMesh Ltd,INMART-IB-Equity.csv,downloaded,372
+INXW IB Equity,Inox Wind Ltd,INXW-IB-Equity.csv,downloaded,1421
+IOB IB Equity,Indian Overseas Bank,IOB-IB-Equity.csv,downloaded,4983
+IOCL IB Equity,Indian Oil Corp Ltd,IOCL-IB-Equity.csv,downloaded,5224
+IPCA IB Equity,Ipca Laboratories Ltd,IPCA-IB-Equity.csv,downloaded,5224
+IPRU IB Equity,ICICI Prudential Life Insuranc,IPRU-IB-Equity.csv,downloaded,1055
+IRB IB Equity,IRB Infrastructure Developers,IRB-IB-Equity.csv,downloaded,3181
+IRCON IB Equity,IRCON International Ltd,IRCON-IB-Equity.csv,downloaded,559
+IRCTC IB Equity,Indian Railway Catering & Tour,IRCTC-IB-Equity.csv,downloaded,306
+IREDA IB Equity,Indian Renewable Energy Develo,IREDA-IB-Equity.csv,too_short,0
+IRFC IB Equity,Indian Railway Finance Corp Lt,IRFC-IB-Equity.csv,too_short,0
+ITC IB Equity,ITC Ltd,ITC-IB-Equity.csv,downloaded,5225
+ITCHOTEL IB Equity,ITC Hotels Ltd,ITCHOTEL-IB-Equity.csv,downloaded,1240
+JBCP IB Equity,JB Chemicals & Pharmaceuticals,JBCP-IB-Equity.csv,downloaded,5222
+JBMA IB Equity,JBM Auto Ltd,JBMA-IB-Equity.csv,downloaded,3977
+JDSL IB Equity,Jindal Stainless Ltd,JDSL-IB-Equity.csv,downloaded,4255
+JINDALST IB Equity,Jindal Steel Ltd,JINDALST-IB-Equity.csv,downloaded,5199
+JIOFIN IB Equity,Jio Financial Services Ltd,JIOFIN-IB-Equity.csv,too_short,0
+JKBK IB Equity,Jammu & Kashmir Bank Ltd/The,JKBK-IB-Equity.csv,downloaded,5216
+JKCE IB Equity,JK Cement Ltd,JKCE-IB-Equity.csv,downloaded,3844
+JKLC IB Equity,JK Lakshmi Cement Ltd,JKLC-IB-Equity.csv,downloaded,5183
+JM IB Equity,JM Financial Ltd,JM-IB-Equity.csv,downloaded,4914
+JPVL IB Equity,Jaiprakash Power Ventures Ltd,JPVL-IB-Equity.csv,downloaded,3899
+JSAW IB Equity,Jindal Saw Ltd,JSAW-IB-Equity.csv,downloaded,5221
+JSTL IB Equity,JSW Steel Ltd,JSTL-IB-Equity.csv,downloaded,5204
+JSW IB Equity,JSW Energy Ltd,JSW-IB-Equity.csv,downloaded,2731
+JSWDULUX IB Equity,JSW Dulux Ltd,JSWDULUX-IB-Equity.csv,downloaded,5224
+JSWINFRA IB Equity,JSW Infrastructure Ltd,JSWINFRA-IB-Equity.csv,too_short,0
+JUBI IB Equity,Jubilant Foodworks Ltd,JUBI-IB-Equity.csv,downloaded,2706
+JUBLINGR IB Equity,Jubilant Ingrevia Ltd,JUBLINGR-IB-Equity.csv,too_short,0
+JUBLPHAR IB Equity,Jubilant Pharmova Ltd,JUBLPHAR-IB-Equity.csv,downloaded,5191
+JUST IB Equity,Just Dial Ltd,JUST-IB-Equity.csv,downloaded,1873
+JWL IB Equity,Jupiter Wagons Ltd,JWL-IB-Equity.csv,downloaded,2532
+JYL IB Equity,Jyothy Labs Ltd,JYL-IB-Equity.csv,downloaded,3227
+JYOTICNC IB Equity,Jyoti CNC Automation Ltd,JYOTICNC-IB-Equity.csv,too_short,0
+KALYANKJ IB Equity,Kalyan Jewellers India Ltd,KALYANKJ-IB-Equity.csv,too_short,0
+KAYNES IB Equity,Kaynes Technology India Ltd,KAYNES-IB-Equity.csv,too_short,0
+KECI IB Equity,KEC International Ltd,KECI-IB-Equity.csv,downloaded,3671
+KEII IB Equity,KEI Industries Ltd,KEII-IB-Equity.csv,downloaded,4667
+KFINTECH IB Equity,Kfin Technologies Ltd,KFINTECH-IB-Equity.csv,too_short,0
+KIMS IB Equity,Krishna Institute of Medical S,KIMS-IB-Equity.csv,too_short,0
+KJC IB Equity,Kajaria Ceramics Ltd,KJC-IB-Equity.csv,downloaded,5207
+KKB IB Equity,Kirloskar Brothers Ltd,KKB-IB-Equity.csv,downloaded,5098
+KKC IB Equity,Cummins India Ltd,KKC-IB-Equity.csv,downloaded,5224
+KMB IB Equity,Kotak Mahindra Bank Ltd,KMB-IB-Equity.csv,downloaded,5225
+KOEL IB Equity,Kirloskar Oil Engines Ltd,KOEL-IB-Equity.csv,downloaded,2484
+KPIL IB Equity,Kalpataru Projects Internation,KPIL-IB-Equity.csv,downloaded,5031
+KPITTECH IB Equity,KPIT Technologies Ltd,KPITTECH-IB-Equity.csv,downloaded,422
+KPR IB Equity,KPR Mill Ltd,KPR-IB-Equity.csv,downloaded,3307
+LATENTVI IB Equity,Latent View Analytics Ltd,LATENTVI-IB-Equity.csv,too_short,0
+LAURUS IB Equity,Laurus Labs Ltd,LAURUS-IB-Equity.csv,downloaded,1001
+LEMONTRE IB Equity,Lemon Tree Hotels Ltd,LEMONTRE-IB-Equity.csv,downloaded,679
+LICHF IB Equity,LIC Housing Finance Ltd,LICHF-IB-Equity.csv,downloaded,5225
+LICI IB Equity,Life Insurance Corp of India,LICI-IB-Equity.csv,too_short,0
+LIIL IB Equity,Linde India Ltd,LIIL-IB-Equity.csv,downloaded,5202
+LLOYDSME IB Equity,Lloyds Metals & Energy Ltd,LLOYDSME-IB-Equity.csv,downloaded,4977
+LODHA IB Equity,Lodha Developers Ltd,LODHA-IB-Equity.csv,too_short,0
+LPC IB Equity,Lupin Ltd,LPC-IB-Equity.csv,downloaded,5184
+LT IB Equity,Larsen & Toubro Ltd,LT-IB-Equity.csv,downloaded,5201
+LTF IB Equity,L&T Finance Ltd,LTF-IB-Equity.csv,downloaded,2325
+LTFOODS IB Equity,LT Foods Ltd,LTFOODS-IB-Equity.csv,downloaded,3478
+LTM IB Equity,LTIMindtree Ltd,LTM-IB-Equity.csv,downloaded,1102
+LTTS IB Equity,L&T Technology Services Ltd,LTTS-IB-Equity.csv,downloaded,1059
+MAHGL IB Equity,Mahanagar Gas Ltd,MAHGL-IB-Equity.csv,downloaded,1115
+MANKIND IB Equity,Mankind Pharma Ltd,MANKIND-IB-Equity.csv,too_short,0
+MANYAVAR IB Equity,Vedant Fashions Ltd,MANYAVAR-IB-Equity.csv,too_short,0
+MAPMYIND IB Equity,CE Info Systems Ltd,MAPMYIND-IB-Equity.csv,too_short,0
+MAST IB Equity,Mastek Ltd,MAST-IB-Equity.csv,downloaded,5220
+MAXF IB Equity,Max Financial Services Ltd,MAXF-IB-Equity.csv,downloaded,5224
+MAXHEALT IB Equity,Max Healthcare Institute Ltd,MAXHEALT-IB-Equity.csv,downloaded,92
+MAZDOCKS IB Equity,Mazagon Dock Shipbuilders Ltd,MAZDOCKS-IB-Equity.csv,downloaded,57
+MCX IB Equity,Multi Commodity Exchange of In,MCX-IB-Equity.csv,downloaded,2184
+MDA IB Equity,Minda Corp Ltd,MDA-IB-Equity.csv,downloaded,1451
+MEDANTA IB Equity,Global Health Ltd/India,MEDANTA-IB-Equity.csv,too_short,0
+MEDPLUS IB Equity,Medplus Health Services Ltd,MEDPLUS-IB-Equity.csv,too_short,0
+METROHL IB Equity,Metropolis Healthcare Ltd,METROHL-IB-Equity.csv,downloaded,425
+MGFL IB Equity,Manappuram Finance Ltd,MGFL-IB-Equity.csv,downloaded,4584
+MHS IB Equity,Maharashtra Seamless Ltd,MHS-IB-Equity.csv,downloaded,5204
+MHSC IB Equity,Maharashtra Scooters Ltd,MHSC-IB-Equity.csv,downloaded,5187
+MM IB Equity,Mahindra & Mahindra Ltd,MM-IB-Equity.csv,downloaded,5226
+MMFS IB Equity,Mahindra & Mahindra Financial,MMFS-IB-Equity.csv,downloaded,3669
+MOFS IB Equity,Motilal Oswal Financial Servic,MOFS-IB-Equity.csv,downloaded,3297
+MOTHERSO IB Equity,Samvardhana Motherson Internat,MOTHERSO-IB-Equity.csv,downloaded,5033
+MPHL IB Equity,Mphasis Ltd,MPHL-IB-Equity.csv,downloaded,5210
+MRCO IB Equity,Marico Ltd,MRCO-IB-Equity.csv,downloaded,5139
+MRF IB Equity,MRF Ltd,MRF-IB-Equity.csv,downloaded,5224
+MRL IB Equity,Chennai Petroleum Corp Ltd,MRL-IB-Equity.csv,downloaded,5225
+MRPL IB Equity,Mangalore Refinery & Petrochem,MRPL-IB-Equity.csv,downloaded,5225
+MSIL IB Equity,Maruti Suzuki India Ltd,MSIL-IB-Equity.csv,downloaded,4347
+MSUMI IB Equity,Motherson Sumi Wiring India Lt,MSUMI-IB-Equity.csv,too_short,0
+MUTH IB Equity,Muthoot Finance Ltd,MUTH-IB-Equity.csv,downloaded,2395
+NACL IB Equity,National Aluminium Co Ltd,NACL-IB-Equity.csv,downloaded,5225
+NAM IB Equity,Nippon Life India Asset Manage,NAM-IB-Equity.csv,downloaded,783
+NARH IB Equity,Narayana Hrudayalaya Ltd,NARH-IB-Equity.csv,downloaded,1235
+NAVA IB Equity,Nava Ltd,NAVA-IB-Equity.csv,downloaded,4905
+NBCC IB Equity,NBCC India Ltd,NBCC-IB-Equity.csv,downloaded,2162
+NEST IB Equity,Nestle India Ltd,NEST-IB-Equity.csv,downloaded,5225
+NETM IB Equity,Network18 Media & Investments,NETM-IB-Equity.csv,downloaded,3447
+NETWEB IB Equity,Netweb Technologies India Ltd,NETWEB-IB-Equity.csv,too_short,0
+NEWGEN IB Equity,Newgen Software Technologies L,NEWGEN-IB-Equity.csv,downloaded,724
+NFIL IB Equity,Navin Fluorine International L,NFIL-IB-Equity.csv,downloaded,4287
+NHPC IB Equity,NHPC Ltd,NHPC-IB-Equity.csv,downloaded,2812
+NIACL IB Equity,New India Assurance Co Ltd/The,NIACL-IB-Equity.csv,downloaded,777
+NIVABUPA IB Equity,Niva Bupa Health Insurance Co,NIVABUPA-IB-Equity.csv,too_short,0
+NJCC IB Equity,NCC Ltd/India,NJCC-IB-Equity.csv,downloaded,5086
+NLC IB Equity,NLC India Ltd,NLC-IB-Equity.csv,downloaded,5219
+NLL IB Equity,Neuland Laboratories Ltd,NLL-IB-Equity.csv,downloaded,5205
+NMDC IB Equity,NMDC Ltd,NMDC-IB-Equity.csv,downloaded,4728
+NSLNISP IB Equity,NMDC Steel Ltd,NSLNISP-IB-Equity.csv,too_short,0
+NTCPH IB Equity,Natco Pharma Ltd,NTCPH-IB-Equity.csv,downloaded,5151
+NTPC IB Equity,NTPC Ltd,NTPC-IB-Equity.csv,downloaded,4009
+NTPCGREE IB Equity,NTPC Green Energy Ltd,NTPCGREE-IB-Equity.csv,too_short,0
+NUVAMA IB Equity,Nuvama Wealth Management Ltd,NUVAMA-IB-Equity.csv,too_short,0
+NUVOCO IB Equity,Nuvoco Vistas Corp Ltd,NUVOCO-IB-Equity.csv,too_short,0
+NYKAA IB Equity,FSN E-Commerce Ventures Ltd,NYKAA-IB-Equity.csv,too_short,0
+OBER IB Equity,Oberoi Realty Ltd,OBER-IB-Equity.csv,downloaded,2530
+OFSS IB Equity,Oracle Financial Services Soft,OFSS-IB-Equity.csv,downloaded,4603
+OINL IB Equity,Oil India Ltd,OINL-IB-Equity.csv,downloaded,2793
+OLAELEC IB Equity,Ola Electric Mobility Ltd,OLAELEC-IB-Equity.csv,too_short,0
+OLECTRA IB Equity,Olectra Greentech Ltd,OLECTRA-IB-Equity.csv,downloaded,4760
+ONESOURC IB Equity,Onesource Specialty Pharma Ltd,ONESOURC-IB-Equity.csv,too_short,0
+ONGC IB Equity,Oil & Natural Gas Corp Ltd,ONGC-IB-Equity.csv,downloaded,5225
+PAG IB Equity,Page Industries Ltd,PAG-IB-Equity.csv,downloaded,3419
+PARADEEP IB Equity,Paradeep Phosphates Ltd,PARADEEP-IB-Equity.csv,too_short,0
+PATANJAL IB Equity,Patanjali Foods Ltd,PATANJAL-IB-Equity.csv,downloaded,5129
+PAYTM IB Equity,One 97 Communications Ltd,PAYTM-IB-Equity.csv,too_short,0
+PCBL IB Equity,PCBL CHEMICAL Ltd,PCBL-IB-Equity.csv,downloaded,5015
+PEPL IB Equity,Prestige Estates Projects Ltd,PEPL-IB-Equity.csv,downloaded,2525
+PFIZ IB Equity,Pfizer Ltd,PFIZ-IB-Equity.csv,downloaded,5224
+PG IB Equity,Procter & Gamble Hygiene & Hea,PG-IB-Equity.csv,downloaded,5225
+PGEL IB Equity,PG Electroplast Ltd,PGEL-IB-Equity.csv,downloaded,2295
+PHNX IB Equity,Phoenix Mills Ltd/The,PHNX-IB-Equity.csv,downloaded,4727
+PI IB Equity,PI Industries Ltd,PI-IB-Equity.csv,downloaded,4620
+PIDI IB Equity,Pidilite Industries Ltd,PIDI-IB-Equity.csv,downloaded,5219
+PIRPHARM IB Equity,Piramal Pharma Ltd,PIRPHARM-IB-Equity.csv,too_short,0
+PLM IB Equity,Poly Medicure Ltd,PLM-IB-Equity.csv,downloaded,4577
+PLNG IB Equity,Petronet LNG Ltd,PLNG-IB-Equity.csv,downloaded,4165
+PNB IB Equity,Punjab National Bank,PNB-IB-Equity.csv,downloaded,4647
+PNBHOUSI IB Equity,PNB Housing Finance Ltd,PNBHOUSI-IB-Equity.csv,downloaded,1030
+POLICYBZ IB Equity,PB Fintech Ltd,POLICYBZ-IB-Equity.csv,too_short,0
+POLYCAB IB Equity,Polycab India Ltd,POLYCAB-IB-Equity.csv,downloaded,424
+POONAWAL IB Equity,Poonawalla Fincorp Ltd,POONAWAL-IB-Equity.csv,downloaded,4597
+POWERIND IB Equity,Hitachi Energy India Ltd,POWERIND-IB-Equity.csv,downloaded,190
+POWF IB Equity,Power Finance Corp Ltd,POWF-IB-Equity.csv,downloaded,3434
+PREMIERE IB Equity,Premier Energies Ltd,PREMIERE-IB-Equity.csv,too_short,0
+PRJ IB Equity,Praj Industries Ltd,PRJ-IB-Equity.csv,downloaded,5020
+PSYS IB Equity,Persistent Systems Ltd,PSYS-IB-Equity.csv,downloaded,2669
+PTCIL IB Equity,PTC Industries Ltd,PTCIL-IB-Equity.csv,downloaded,1438
+PVRINOX IB Equity,PVR Inox Ltd,PVRINOX-IB-Equity.csv,downloaded,3716
+PWGR IB Equity,Power Grid Corp of India Ltd,PWGR-IB-Equity.csv,downloaded,3280
+RAILTEL IB Equity,Railtel Corp of India Ltd,RAILTEL-IB-Equity.csv,too_short,0
+RAINBOW IB Equity,Rainbow Children's Medicare Lt,RAINBOW-IB-Equity.csv,too_short,0
+RBK IB Equity,RBL Bank Ltd,RBK-IB-Equity.csv,downloaded,1074
+RCF IB Equity,Rashtriya Chemicals & Fertiliz,RCF-IB-Equity.csv,downloaded,5224
+RDCK IB Equity,Radico Khaitan Ltd,RDCK-IB-Equity.csv,downloaded,4360
+RECL IB Equity,REC Ltd,RECL-IB-Equity.csv,downloaded,3170
+REDI IB Equity,Redington Ltd,REDI-IB-Equity.csv,downloaded,3439
+RELIANCE IB Equity,Reliance Industries Ltd,RELIANCE-IB-Equity.csv,downloaded,5226
+RHIM IB Equity,Rhi Magnesita India Ltd,RHIM-IB-Equity.csv,downloaded,2183
+RITE IB Equity,RITES Ltd,RITE-IB-Equity.csv,downloaded,619
+RLXF IB Equity,Relaxo Footwears Ltd,RLXF-IB-Equity.csv,downloaded,4862
+RMKF IB Equity,Ramkrishna Forgings Ltd,RMKF-IB-Equity.csv,downloaded,4139
+RPWR IB Equity,Reliance Power Ltd,RPWR-IB-Equity.csv,downloaded,3191
+RRKABEL IB Equity,RR Kabel Ltd,RRKABEL-IB-Equity.csv,too_short,0
+RVNL IB Equity,Rail Vikas Nigam Ltd,RVNL-IB-Equity.csv,downloaded,427
+SAGILITY IB Equity,Sagility Ltd,SAGILITY-IB-Equity.csv,too_short,0
+SAIL IB Equity,Steel Authority of India Ltd,SAIL-IB-Equity.csv,downloaded,5225
+SAILIFE IB Equity,SAI Life Sciences Ltd,SAILIFE-IB-Equity.csv,too_short,0
+SAMMAANC IB Equity,Sammaan Capital Ltd,SAMMAANC-IB-Equity.csv,downloaded,1839
+SAPPHIRE IB Equity,Sapphire Foods India Ltd,SAPPHIRE-IB-Equity.csv,too_short,0
+SBICARD IB Equity,SBI Cards & Payment Services L,SBICARD-IB-Equity.csv,downloaded,200
+SBILIFE IB Equity,SBI Life Insurance Co Ltd,SBILIFE-IB-Equity.csv,downloaded,806
+SBIN IB Equity,State Bank of India,SBIN-IB-Equity.csv,downloaded,5226
+SCHFL IB Equity,Schaeffler India Ltd,SCHFL-IB-Equity.csv,downloaded,5197
+SCHN IB Equity,Schneider Electric Infrastruct,SCHN-IB-Equity.csv,downloaded,2176
+SEML IB Equity,Sarda Energy & Minerals Ltd,SEML-IB-Equity.csv,downloaded,4853
+SFL IB Equity,Sheela Foam Ltd,SFL-IB-Equity.csv,downloaded,1007
+SHFL IB Equity,Shriram Finance Ltd,SHFL-IB-Equity.csv,downloaded,5140
+SHYAMMET IB Equity,Shyam Metalics & Energy Ltd,SHYAMMET-IB-Equity.csv,too_short,0
+SI IB Equity,Supreme Industries Ltd,SI-IB-Equity.csv,downloaded,5224
+SIEM IB Equity,Siemens Ltd,SIEM-IB-Equity.csv,downloaded,5225
+SIGNATUR IB Equity,SignatureGlobal India Ltd,SIGNATUR-IB-Equity.csv,too_short,0
+SJVN IB Equity,SJVN Ltd,SJVN-IB-Equity.csv,downloaded,2638
+SOBHA IB Equity,Sobha Ltd,SOBHA-IB-Equity.csv,downloaded,3476
+SOIL IB Equity,Solar Industries India Ltd,SOIL-IB-Equity.csv,downloaded,3658
+SONACOMS IB Equity,Sona Blw Precision Forgings Lt,SONACOMS-IB-Equity.csv,too_short,0
+SRCM IB Equity,Shree Cement Ltd,SRCM-IB-Equity.csv,downloaded,5177
+SRF IB Equity,SRF Ltd,SRF-IB-Equity.csv,downloaded,5207
+SSOF IB Equity,Sonata Software Ltd,SSOF-IB-Equity.csv,downloaded,5225
+STARHEAL IB Equity,Star Health & Allied Insurance,STARHEAL-IB-Equity.csv,too_short,0
+SUEL IB Equity,Suzlon Energy Ltd,SUEL-IB-Equity.csv,downloaded,3770
+SUMICHEM IB Equity,Sumitomo Chemical India Ltd,SUMICHEM-IB-Equity.csv,downloaded,234
+SUNP IB Equity,Sun Pharmaceutical Industries,SUNP-IB-Equity.csv,downloaded,5225
+SUNTV IB Equity,Sun TV Network Ltd,SUNTV-IB-Equity.csv,downloaded,3646
+SWANCORP IB Equity,Swan Corp Ltd,SWANCORP-IB-Equity.csv,downloaded,4581
+SWIGGY IB Equity,Swiggy Ltd,SWIGGY-IB-Equity.csv,too_short,0
+SWSOLAR IB Equity,Sterling and Wilson Renewable,SWSOLAR-IB-Equity.csv,downloaded,341
+SYNG IB Equity,Syngene International Ltd,SYNG-IB-Equity.csv,downloaded,1334
+SYRMA IB Equity,Syrma SGS Technology Ltd,SYRMA-IB-Equity.csv,too_short,0
+TANLA IB Equity,Tanla Platforms Ltd,TANLA-IB-Equity.csv,downloaded,3466
+TARIL IB Equity,Transformers & Rectifiers Indi,TARIL-IB-Equity.csv,downloaded,3222
+TATA IB Equity,Tata Steel Ltd,TATA-IB-Equity.csv,downloaded,5226
+TATACONS IB Equity,Tata Consumer Products Ltd,TATACONS-IB-Equity.csv,downloaded,5225
+TATAINVE IB Equity,Tata Investment Corp Ltd,TATAINVE-IB-Equity.csv,downloaded,5160
+TATATECH IB Equity,Tata Technologies Ltd,TATATECH-IB-Equity.csv,too_short,0
+TBOTEK IB Equity,Tbo Tek Ltd,TBOTEK-IB-Equity.csv,too_short,0
+TCOM IB Equity,Tata Communications Ltd,TCOM-IB-Equity.csv,downloaded,5225
+TCS IB Equity,Tata Consultancy Services Ltd,TCS-IB-Equity.csv,downloaded,4060
+TECHM IB Equity,Tech Mahindra Ltd,TECHM-IB-Equity.csv,downloaded,3556
+TECHNOE IB Equity,Techno Electric & Engineering,TECHNOE-IB-Equity.csv,downloaded,516
+TEJASNET IB Equity,Tejas Networks Ltd,TEJASNET-IB-Equity.csv,downloaded,872
+TELX IB Equity,Tata Elxsi Ltd,TELX-IB-Equity.csv,downloaded,5225
+THELEELA IB Equity,Leela Palaces Hotels & Resorts,THELEELA-IB-Equity.csv,too_short,0
+TIINDIA IB Equity,Tube Investments of India Ltd,TIINDIA-IB-Equity.csv,downloaded,784
+TITAGARH IB Equity,Titagarh Rail System Ltd,TITAGARH-IB-Equity.csv,downloaded,3146
+TMKN IB Equity,Timken India Ltd,TMKN-IB-Equity.csv,downloaded,5212
+TMPV IB Equity,Tata Motors Passenger Vehicles,TMPV-IB-Equity.csv,downloaded,5225
+TMX IB Equity,Thermax Ltd,TMX-IB-Equity.csv,downloaded,5225
+TPW IB Equity,Torrent Power Ltd,TPW-IB-Equity.csv,downloaded,3491
+TPWR IB Equity,Tata Power Co Ltd/The,TPWR-IB-Equity.csv,downloaded,5226
+TRCL IB Equity,Ramco Cements Ltd/The,TRCL-IB-Equity.csv,downloaded,5213
+TRENT IB Equity,Trent Ltd,TRENT-IB-Equity.csv,downloaded,5224
+TRID IB Equity,Trident Ltd/India,TRID-IB-Equity.csv,downloaded,5030
+TRIV IB Equity,Triveni Turbine Ltd,TRIV-IB-Equity.csv,downloaded,2274
+TRP IB Equity,Torrent Pharmaceuticals Ltd,TRP-IB-Equity.csv,downloaded,5165
+TTAN IB Equity,Titan Co Ltd,TTAN-IB-Equity.csv,downloaded,5225
+TTCH IB Equity,Tata Chemicals Ltd,TTCH-IB-Equity.csv,downloaded,5225
+TVSHLTD IB Equity,TVS Holdings Ltd,TVSHLTD-IB-Equity.csv,downloaded,5021
+TVSL IB Equity,TVS Motor Co Ltd,TVSL-IB-Equity.csv,downloaded,5095
+UBBL IB Equity,United Breweries Ltd,UBBL-IB-Equity.csv,downloaded,4522
+UCO IB Equity,UCO Bank,UCO-IB-Equity.csv,downloaded,4283
+UNBK IB Equity,Union Bank of India Ltd,UNBK-IB-Equity.csv,downloaded,4543
+UNITDSPR IB Equity,United Spirits Ltd,UNITDSPR-IB-Equity.csv,downloaded,4790
+UNOMINDA IB Equity,UNO Minda Ltd,UNOMINDA-IB-Equity.csv,downloaded,4059
+UPLL IB Equity,UPL Ltd,UPLL-IB-Equity.csv,downloaded,5076
+USM IB Equity,Usha Martin Ltd,USM-IB-Equity.csv,downloaded,5222
+UTCEM IB Equity,UltraTech Cement Ltd,UTCEM-IB-Equity.csv,downloaded,4059
+UTIAM IB Equity,UTI Asset Management Co Ltd,UTIAM-IB-Equity.csv,downloaded,57
+VBL IB Equity,Varun Beverages Ltd,VBL-IB-Equity.csv,downloaded,1029
+VEDL IB Equity,Vedanta Ltd,VEDL-IB-Equity.csv,downloaded,5224
+VGRD IB Equity,V-Guard Industries Ltd,VGRD-IB-Equity.csv,downloaded,3169
+VMM IB Equity,Vishal Mega Mart Ltd,VMM-IB-Equity.csv,too_short,0
+VOLT IB Equity,Voltas Ltd,VOLT-IB-Equity.csv,downloaded,5225
+VTEX IB Equity,Vardhman Textiles Ltd,VTEX-IB-Equity.csv,downloaded,5101
+WAAREEEN IB Equity,WAAREE Energies Ltd,WAAREEEN-IB-Equity.csv,too_short,0
+WELSPUNL IB Equity,Welspun Living Ltd,WELSPUNL-IB-Equity.csv,downloaded,5159
+WHIRL IB Equity,Whirlpool of India Ltd,WHIRL-IB-Equity.csv,downloaded,5225
+WLCO IB Equity,Welspun Corp Ltd,WLCO-IB-Equity.csv,downloaded,5164
+WPL IB Equity,Wockhardt Ltd,WPL-IB-Equity.csv,downloaded,5191
+WPRO IB Equity,Wipro Ltd,WPRO-IB-Equity.csv,downloaded,5226
+YES IB Equity,Yes Bank Ltd,YES-IB-Equity.csv,downloaded,3837
+Z IB Equity,Zee Entertainment Enterprises,Z-IB-Equity.csv,downloaded,5226
+ZCVCS IB Equity,ZF Commercial Vehicle Control,ZCVCS-IB-Equity.csv,downloaded,3032
+ZEN IB Equity,Zen Technologies Ltd,ZEN-IB-Equity.csv,downloaded,4017
+ZENT IB Equity,Zensar Technologies Ltd,ZENT-IB-Equity.csv,downloaded,5224
+ZYDUSLIF IB Equity,Zydus Lifesciences Ltd,ZYDUSLIF-IB-Equity.csv,downloaded,5147
+ZYWL IB Equity,Zydus Wellness Ltd,ZYWL-IB-Equity.csv,downloaded,4586

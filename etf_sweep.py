@@ -1,3 +1,68 @@
+"""
+=============================================================================
+SCRIPT NAME: etf_sweep.py
+=============================================================================
+
+DESCRIPTION:
+    Loads historical ETF price/volume data from CSV files and evaluates the
+    Kronos time-series model across a configurable lookback window. For each
+    ETF ticker and each prediction date (stepping by stride), the script
+    constructs a batch of price windows, runs Kronos inference to predict
+    forward returns (pred_len days ahead), and records predicted vs. actual
+    returns. After the sweep, it computes per-ticker metrics (Spearman IC
+    in-sample pre-2024-07-01 and out-of-sample post-2024-07-01, directional
+    accuracy) and saves them to CSV. Two heatmap PNGs (in-sample IC and
+    out-of-sample IC) are generated for visual inspection.
+
+INPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/data/ETF/{ticker}.csv
+        One CSV per ETF ticker containing columns: timestamps, open, high,
+        low, close, volume, amount. The script lists all .csv files in the
+        data/ETF/ directory and reads each as a DataFrame.
+
+OUTPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/sweep_metrics_progress.csv
+        Intermediate per-lookback metrics saved during the sweep loop.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/sweep_metrics_final.csv
+        Final consolidated metrics (ticker, lookback, IC pre/post, accuracy).
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/sweep_heatmap_oos.png
+        Heatmap of out-of-sample IC (post-June 2024) across tickers and
+        lookback periods.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/sweep_heatmap_is.png
+        Heatmap of in-sample IC (training period) across tickers and lookback
+        periods.
+
+VERSION: 1.0
+LAST UPDATED: 2026-06-05
+AUTHOR: Arjun Divecha
+
+DEPENDENCIES:
+    - pandas
+    - numpy
+    - torch
+    - matplotlib
+    - seaborn
+    - scipy
+    - tqdm
+    - model.py (local module providing Kronos, KronosTokenizer, KronosPredictor)
+
+USAGE:
+    python etf_sweep.py
+
+NOTES:
+    - Requires a Kronos model checkpoint downloaded via HuggingFace
+      (from_pretrained calls to "NeoQuasar/Kronos-small" and
+      "NeoQuasar/Kronos-Tokenizer-base").
+    - The script uses SPY as the reference timeline for coordinating
+      batch inference across assets.
+    - Only tickers with a CSV file in data/ETF/ are processed; ETFs
+      that start trading later (e.g. ASHR in 2013) are handled
+      gracefully.
+    - Heatmap generation may fail silently if metrics data is
+      insufficient for pivoting.
+=============================================================================
+"""
+
 import os
 import sys
 import pandas as pd

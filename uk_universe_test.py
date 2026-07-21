@@ -1,8 +1,64 @@
 """
-Large Universe Test: 531 UK Stocks
-====================================
-Zero-shot Kronos-base backtest on the UK market.
-Uses the same daily pipeline (40d lookback, 5d forecast) and MPS sub-batching.
+=============================================================================
+SCRIPT NAME: uk_universe_test.py
+=============================================================================
+
+DESCRIPTION:
+    Zero-shot backtest of the Kronos-base model on a large universe of UK
+    stocks. Loads tickers from a UK.xlsx spreadsheet, downloads historical
+    OHLCV data from Yahoo Finance, then runs a rolling backtest with 40-day
+    lookback windows and 5-day forecast horizons. Uses the Kronos-base
+    model with MPS sub-batching to predict future returns, computing
+    predicted vs. actual returns for top/bottom decile portfolios. Saves
+    forecasts to a CSV and supports checkpoint/resume via an intermediate
+    checkpoint file.
+
+INPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/UK.xlsx
+        Spreadsheet containing UK ticker symbols in a "Ticker" column.
+        Tickers are cleaned and converted to Yahoo Finance .L format.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/data/UK500/<TICKER>.csv
+        Per-ticker OHLCV CSV files downloaded from Yahoo Finance.
+        Created by the download step and re-read during backtesting.
+        (Intermediate output that becomes input for the backtest phase.)
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/forecasts_UK500_checkpoint.csv
+        Checkpoint CSV read on startup to resume a partially-completed
+        backtest. Deleted after the run completes.
+
+OUTPUT FILES:
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/data/UK500/<TICKER>.csv
+        Per-ticker OHLCV CSV files downloaded from Yahoo Finance.
+        Written during the download step.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/forecasts_UK500_checkpoint.csv
+        Intermediate checkpoint saved every 25 backtest periods.
+        Automatically deleted when the backtest finishes successfully.
+    /Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/forecasts_UK500.csv
+        Final output CSV containing predicted vs. actual returns for
+        every ticker and date combination in the backtest.
+
+VERSION: 1.0
+LAST UPDATED: 2026-06-05
+AUTHOR: Arjun Divecha
+
+DEPENDENCIES:
+    - pandas
+    - numpy
+    - yfinance
+    - tqdm
+    - scipy
+    - torch (via model.py)
+
+USAGE:
+    python uk_universe_test.py
+
+NOTES:
+    - Requires the Kronos-base model (NeoQuasar/Kronos-base) downloaded via HuggingFace.
+    - Runs on macOS MPS (Metal Performance Shaders) by default.
+    - The UK.xlsx ticker file must exist at the expected path.
+    - Downloading 500+ tickers from Yahoo Finance is rate-limited; the
+      script caches data locally and only downloads missing tickers.
+    - Checkpoint file is cleaned up on successful completion.
+=============================================================================
 """
 import os, sys, re, json
 import pandas as pd
