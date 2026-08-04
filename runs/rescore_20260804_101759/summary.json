@@ -1,0 +1,24 @@
+{
+  "run_utc": "2026-08-04T17:18:02.473949Z",
+  "script": "/Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/rescore_from_cache.py",
+  "selection": "top_n_names",
+  "top_n": 10,
+  "decile": 0.1,
+  "permutation": false,
+  "oos_start": "2025-01-01",
+  "universes_scored": [
+    "SmallCap600",
+    "TechStocks",
+    "Universe500"
+  ],
+  "n_rows": 6,
+  "network_used": false,
+  "model_loaded": false,
+  "survivorship_complete": false,
+  "survivorship_note": "Cached forecasts contain only April-2026 universe members with full price history. Delisted names are absent and cannot be recovered by re-scoring. Results are biased upward.",
+  "outputs": {
+    "parquet": "/Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/runs/rescore_20260804_101759/rescore_results.parquet",
+    "xlsx": "/Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/runs/rescore_20260804_101759/rescore_results.xlsx",
+    "log": "/Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/runs/rescore_20260804_101759/rescore.log"
+  }
+}
