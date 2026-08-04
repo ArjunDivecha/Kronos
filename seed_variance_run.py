@@ -109,11 +109,20 @@ def load_panel(log):
     return etf_dfs
 
 
-def build_batches(etf_dfs, max_periods=None):
-    """Pre-build every walk-forward batch once; identical across seeds."""
+def build_batches(etf_dfs, max_periods=None, start_date=None):
+    """
+    Pre-build every walk-forward batch once; identical across seeds.
+
+    start_date restricts the REBALANCE dates only. The 40-bar lookback still
+    reaches back before it, which is correct: we are asking how stable the
+    signal is over a window, not pretending the model has no history.
+    """
     ref = max(etf_dfs, key=lambda t: len(etf_dfs[t]))
     ref_dates = np.sort(etf_dfs[ref]["timestamps"].unique())
     idxs = list(range(LOOKBACK, len(ref_dates) - PRED_LEN, STRIDE))
+    if start_date:
+        cut = np.datetime64(pd.Timestamp(start_date))
+        idxs = [i for i in idxs if ref_dates[i] >= cut]
     if max_periods:
         idxs = idxs[:max_periods]
 
@@ -177,6 +186,10 @@ def main():
     ap.add_argument("--seeds", type=int, default=10, help="number of seeds (default 10)")
     ap.add_argument("--probe", type=int, default=None,
                     help="timing probe: run 1 seed over only this many periods")
+    ap.add_argument("--start-date", default=None,
+                    help="restrict rebalance dates to >= this (e.g. 2025-06-30, the date "
+                         "Kronos-base weights were uploaded to HF and the first bar the "
+                         "frozen model provably never saw)")
     args = ap.parse_args()
 
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -201,9 +214,12 @@ def main():
     log("")
 
     etf_dfs = load_panel(log)
-    batches = build_batches(etf_dfs, max_periods=args.probe)
+    batches = build_batches(etf_dfs, max_periods=args.probe, start_date=args.start_date)
     log(f"  {len(batches)} walk-forward batches built"
-        f"{' (PROBE)' if args.probe else ''}")
+        f"{' (PROBE)' if args.probe else ''}"
+        f"{f'  [rebalances >= {args.start_date}]' if args.start_date else ''}")
+    if not batches:
+        raise SystemExit("FAIL: no batches in the requested window")
 
     device = "mps" if torch.backends.mps.is_available() else "cpu"
     log(f"  device: {device}")
@@ -270,6 +286,7 @@ def main():
     with open(os.path.join(run_dir, "distribution.json"), "w") as fh:
         json.dump({"run_utc": datetime.utcnow().isoformat() + "Z",
                    "seeds_requested": len(seeds), "seeds_ok": int(len(ok)),
+                   "start_date": args.start_date,
                    "config": {"lookback": LOOKBACK, "pred_len": PRED_LEN,
                               "stride": STRIDE, "sample_count": SAMPLE_COUNT,
                               "T": TEMPERATURE, "device": device},
