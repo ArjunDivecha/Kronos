@@ -30,7 +30,9 @@ METHODOLOGY (mirrors large_universe_test.py:199-291 exactly)
   * per rebalance date: rank by pred_return, take top/bottom DECILE (10%) and
     top/bottom half; skip dates with fewer than 4x the bin size
   * annualise with periods_per_year = 252 / stride, where stride is INFERRED
-    from the median calendar gap between rebalance dates in each file
+    from the median BUSINESS-day gap between rebalance dates in each file
+  * std ddof is selectable (--ddof): 0 matches large_universe_test.py (numpy),
+    1 matches run_industry28.py (pandas). The two originals disagree.
   * Spearman IC per date, averaged
   * permutation test: 500 random-selection shuffles, seed 42, p = fraction of
     null Sharpes >= realised top-decile Sharpe
@@ -79,13 +81,21 @@ REPO = os.path.dirname(os.path.abspath(__file__))
 OOS_START = "2025-01-01"
 
 
-def _stats(rets, periods_per_year):
-    """Annualised return, vol, Sharpe from a series of per-period returns."""
+def _stats(rets, periods_per_year, ddof=0):
+    """
+    Annualised return, vol, Sharpe from a series of per-period returns.
+
+    ddof matters and the two original scripts disagree:
+      * large_universe_test.py:210 uses numpy .std()  -> ddof=0 (population)
+      * run_industry28.py           uses pandas .std() -> ddof=1 (sample)
+    On 88 OOS periods that is a 0.57% Sharpe difference (1.974 vs 1.963),
+    which is exactly the gap between our re-score and the published 1.96.
+    """
     rets = np.asarray(rets, dtype=float)
     if len(rets) == 0:
         return 0.0, 0.0, 0.0
     ann_ret = (1 + rets.mean()) ** periods_per_year - 1
-    ann_vol = rets.std() * np.sqrt(periods_per_year)
+    ann_vol = rets.std(ddof=ddof) * np.sqrt(periods_per_year)
     return float(ann_ret), float(ann_vol), float(ann_ret / ann_vol) if ann_vol > 0 else 0.0
 
 
@@ -115,7 +125,7 @@ def bin_size_for(n, decile, top_n_abs):
     return max(1, int(n * decile))
 
 
-def analyze(df, decile, label, run_permutation=True, top_n_abs=None):
+def analyze(df, decile, label, run_permutation=True, top_n_abs=None, ddof=0):
     """Recompute all headline metrics for one universe / one window."""
     df = df.dropna(subset=["actual_return"])
     df = df[df["actual_return"].abs() < 0.5]
@@ -153,15 +163,15 @@ def analyze(df, decile, label, run_permutation=True, top_n_abs=None):
     if not top10p:
         return None
 
-    t10_ann, _, t10_sr = _stats(top10p, ppy)
-    b10_ann, _, b10_sr = _stats(bot10p, ppy)
-    _, _, t50_sr = _stats(top50, ppy)
-    _, _, b50_sr = _stats(bot50, ppy)
-    bm_ann, _, bm_sr = _stats(bench, ppy)
+    t10_ann, _, t10_sr = _stats(top10p, ppy, ddof)
+    b10_ann, _, b10_sr = _stats(bot10p, ppy, ddof)
+    _, _, t50_sr = _stats(top50, ppy, ddof)
+    _, _, b50_sr = _stats(bot50, ppy, ddof)
+    bm_ann, _, bm_sr = _stats(bench, ppy, ddof)
 
     ls = np.array(top10p) - np.array(bot10p)
     ls_ann = float(ls.mean() * ppy)
-    ls_vol = float(ls.std() * np.sqrt(ppy))
+    ls_vol = float(ls.std(ddof=ddof) * np.sqrt(ppy))
     ls_sr = ls_ann / ls_vol if ls_vol > 0 else 0.0
 
     p_value = np.nan
@@ -173,7 +183,7 @@ def analyze(df, decile, label, run_permutation=True, top_n_abs=None):
         for _ in range(500):
             shuf = [rng.choice(pool, size=k, replace=False).mean()
                     for pool, k in zip(pools, sizes)]
-            _, _, s = _stats(shuf, ppy)
+            _, _, s = _stats(shuf, ppy, ddof)
             null_sharpes.append(s)
         p_value = float(np.mean(np.array(null_sharpes) >= t10_sr))
 
@@ -207,8 +217,15 @@ def main():
                          "Overrides --decile; this is what the published "
                          "master_validation_summary.csv numbers used.")
     ap.add_argument("--no-permutation", action="store_true", help="skip the 500-shuffle null test")
+    ap.add_argument("--oos-start", default=OOS_START,
+                    help="OOS split date (default 2025-01-01, matching the validation report; "
+                         "the Industry28 live strategy publishes against 2024-07-01)")
+    ap.add_argument("--ddof", type=int, default=0, choices=[0, 1],
+                    help="std degrees of freedom: 0 = numpy/large_universe_test.py (default), "
+                         "1 = pandas/run_industry28.py")
     ap.add_argument("--files", nargs="*", default=None, help="specific forecasts_*.csv to score")
     args = ap.parse_args()
+    oos_start = args.oos_start
 
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     run_dir = os.path.join(REPO, "runs", f"rescore_{stamp}")
@@ -254,9 +271,10 @@ def main():
         log(f"── {universe}  ({len(df):,} rows, {df['ticker'].nunique()} tickers, "
             f"{df['date'].min()} → {df['date'].max()})")
 
-        for label, sub in (("Full", df), ("OOS_2025+", df[df["date"] >= OOS_START])):
+        for label, sub in (("Full", df), (f"OOS_{oos_start}", df[df["date"] >= oos_start])):
             res = analyze(sub, args.decile, label,
-                          run_permutation=not args.no_permutation, top_n_abs=args.top_n)
+                          run_permutation=not args.no_permutation, top_n_abs=args.top_n,
+                          ddof=args.ddof)
             if res is None:
                 log(f"     {label:10s} — no scoreable periods")
                 continue
@@ -306,8 +324,9 @@ def main():
         "selection": ("top_n_names" if args.top_n else "decile_fraction"),
         "top_n": args.top_n,
         "decile": args.decile,
+        "ddof": args.ddof,
         "permutation": not args.no_permutation,
-        "oos_start": OOS_START,
+        "oos_start": oos_start,
         "universes_scored": sorted(out["universe"].unique().tolist()),
         "n_rows": len(out),
         "network_used": False,
