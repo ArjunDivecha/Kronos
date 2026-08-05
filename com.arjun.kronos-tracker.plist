@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Kronos Tracker publisher — publishes the 22 paper books Tracker ingests.
+
+  Install:
+    cp com.arjun.kronos-tracker.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.arjun.kronos-tracker.plist
+  Uninstall:
+    launchctl unload ~/Library/LaunchAgents/com.arjun.kronos-tracker.plist
+
+  Runs weekdays 13:05 PT — 40 minutes BEFORE com.arjun.tracker-daily (13:45 PT),
+  so the books are on disk before Tracker consolidates them. A full run is
+  roughly 15-20 minutes (~2,000 yfinance tickers + Kronos inference), leaving
+  margin. If the run overruns, Tracker reports the previous day and flags the
+  books stale rather than reading a half-written file — every artifact is
+  written atomically (temp + rename).
+
+  Places NO orders. Paper books only.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.arjun.kronos-tracker</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>/Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/run_tracker_daily.sh</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict>
+      <key>Weekday</key><integer>1</integer>
+      <key>Hour</key><integer>13</integer>
+      <key>Minute</key><integer>5</integer>
+    </dict>
+    <dict>
+      <key>Weekday</key><integer>2</integer>
+      <key>Hour</key><integer>13</integer>
+      <key>Minute</key><integer>5</integer>
+    </dict>
+    <dict>
+      <key>Weekday</key><integer>3</integer>
+      <key>Hour</key><integer>13</integer>
+      <key>Minute</key><integer>5</integer>
+    </dict>
+    <dict>
+      <key>Weekday</key><integer>4</integer>
+      <key>Hour</key><integer>13</integer>
+      <key>Minute</key><integer>5</integer>
+    </dict>
+    <dict>
+      <key>Weekday</key><integer>5</integer>
+      <key>Hour</key><integer>13</integer>
+      <key>Minute</key><integer>5</integer>
+    </dict>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos</string>
+  <key>StandardOutPath</key>
+  <string>/Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/tracker_book/launchd_stdout.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/arjundivecha/Dropbox/AAA Backup/A Working/Kronos/shiyu-coder-Kronos/tracker_book/launchd_stderr.log</string>
+  <key>RunAtLoad</key>
+  <false/>
+</dict>
+</plist>

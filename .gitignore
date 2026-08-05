@@ -75,3 +75,8 @@ temp/
 tmp/
 .python-version
 runs/
+
+# Tracker paper books — data + state, not code
+tracker_book/
+tracker_data/
+tracker_book_console.log
