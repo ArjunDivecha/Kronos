@@ -1,7 +1,7 @@
-# CLAUDE.md — shiyu-coder-Kronos (operator's manual for coding agents)
+# AGENTS.md — shiyu-coder-Kronos (operator's manual for coding agents)
 
 Global rules (light mode, doc-header template, `file://` links, FAIL-IS-FAIL) live in
-`~/CLAUDE.md` and `~/Dropbox/AAA Backup/CLAUDE.md` — not repeated here.
+`~/AGENTS.md` and `~/Dropbox/AAA Backup/AGENTS.md` — not repeated here.
 
 ## Purpose
 This is Arjun's fork of the open-source **Kronos** foundation model for financial candlesticks
@@ -81,7 +81,7 @@ or stash before starting work so you can tell your changes from the pre-existing
 
 ## Cross-session messaging
 
-Claude Code sessions can message each other directly. `ListAgents` (or `/list-agents`, `/peers`)
+Codex sessions can message each other directly. `ListAgents` (or `/list-agents`, `/peers`)
 lists reachable sessions; `SendMessage` delivers plain text to one by name. Same-machine delivery
 uses a local socket; cross-machine is reply-only via Remote Control. Use it to hand off a finding
 to a session working elsewhere instead of relaying it through the user. A message is text only —
